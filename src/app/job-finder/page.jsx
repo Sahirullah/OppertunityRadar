@@ -11,7 +11,11 @@ export default function JobFinder() {
   const [selectedSalary, setSelectedSalary] = useState(null);
   const [selectedPostedTime, setSelectedPostedTime] = useState(null);
 
-  const jobTypes = ['Full-time', 'Part-time', 'Internship'];
+  const jobTypes = [
+    { label: 'Full-time', link: '/job-finder?type=full-time' },
+    { label: 'Part-time', link: '/job-finder?type=part-time' },
+    { label: 'Internship', link: '/job-finder?type=internship' }
+  ];
   const salaryRanges = ['$0 - $50k', '$50k - $100k', '$100k - $150k', '$150k+'];
   const postedTimes = ['24h', '1 week', '3 weeks', '1 month'];
 
@@ -88,16 +92,49 @@ export default function JobFinder() {
       <Header />
       <div className={styles.container}>
         <main className={styles.main}>
-          <div className={styles.filters}>
-            <div className={styles.searchBox}>
-              <span>🔍</span>
-              <input type="text" placeholder="Job title, keywords, or company" />
+          <div className={styles.searchSection}>
+            <div className={styles.searchContainer}>
+              <div className={styles.searchInputGroup}>
+                <div className={styles.searchBox}>
+                  <svg className={styles.searchIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                  </svg>
+                  <input type="text" placeholder="Search by job title" className={styles.searchInput} />
+                </div>
+              </div>
+
+              <div className={styles.locationInputGroup}>
+                <div className={styles.locationBox}>
+                  <svg className={styles.locationIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <select className={styles.locationSelect}>
+                    <option value="">Choose Location</option>
+                    <option value="london">London, UK</option>
+                    <option value="pakistan">Pakistan</option>
+                    <option value="usa">USA</option>
+                    <option value="canada">Canada</option>
+                    <option value="australia">Australia</option>
+                    <option value="remote">Remote</option>
+                  </select>
+                </div>
+              </div>
+
+              <button className={styles.searchBtn}>
+                <span>Search</span>
+              </button>
             </div>
-            <div className={styles.locationBox}>
-              <span>📍</span>
-              <input type="text" placeholder="pakistan" />
+
+            <div className={styles.searchSuggestions}>
+              <span className={styles.suggestionLabel}>Popular searches:</span>
+              <div className={styles.suggestionTags}>
+                <button className={styles.suggestionTag}>React Developer</button>
+                <button className={styles.suggestionTag}>Full Stack</button>
+                <button className={styles.suggestionTag}>UI/UX Designer</button>
+              </div>
             </div>
-            <button className={styles.searchBtn}>Find jobs</button>
           </div>
 
           <div className={styles.filterTags}>

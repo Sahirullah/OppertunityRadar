@@ -1,7 +1,7 @@
 .dropdown {
   position: relative;
   display: inline-block;
-  z-index: 1000;
+  z-index: 10000;
 }
 
 .dropdownButton {
@@ -55,16 +55,14 @@
 }
 
 .dropdownMenu {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
+  position: fixed;
   background: white;
   border: 2px solid #e8e8e8;
   border-radius: 12px;
   min-width: 200px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  z-index: 1001;
-  overflow: hidden;
+  z-index: 99999;
+  overflow: visible;
   animation: slideDown 0.2s ease;
 }
 
@@ -92,6 +90,7 @@
   transition: all 0.2s ease;
   font-weight: 500;
   font-family: inherit;
+  text-decoration: none;
 }
 
 .dropdownItem:hover {
