@@ -37,16 +37,16 @@ export default function Header() {
 
           <div className={styles.actions}>
             <button className={styles.iconBtn} title="Notifications">
-              <i className="fas fa-bell"></i>
+              <i className="fa-solid fa-bell"></i>
             </button>
             <button className={styles.iconBtn} title="Messages">
-              <i className="fas fa-comments"></i>
+              <i className="fa-solid fa-comments"></i>
             </button>
             <button className={styles.iconBtn} title="Saved">
-              <i className="fas fa-heart"></i>
+              <i className="fa-solid fa-heart"></i>
             </button>
             <button className={styles.profileBtn} title="Profile">
-              <i className="fas fa-user-circle"></i>
+              <i className="fa-solid fa-circle-user"></i>
             </button>
             <button 
               className={styles.postBtn}

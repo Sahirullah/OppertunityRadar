@@ -228,9 +228,11 @@
   color: #003580;
   font-size: 1.1rem;
   flex-shrink: 0;
+  width: 20px;
+  text-align: center;
 }
 
-.searchBox input {
+.searchInput {
   border: none;
   outline: none;
   flex: 1;
@@ -238,6 +240,140 @@
   color: #333;
   background: transparent;
   font-family: inherit;
+}
+
+.searchInput::placeholder {
+  color: #999;
+  font-weight: 500;
+}
+
+.locationInputGroup {
+  display: flex;
+  gap: 1rem;
+  flex: 0.9;
+  align-items: center;
+  min-width: 200px;
+}
+
+.locationBox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  padding: 0.9rem 1.25rem;
+  border-radius: 10px;
+  border: 2px solid #e8e8e8;
+  flex: 1;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+}
+
+.locationBox:focus-within {
+  border-color: #003580;
+  box-shadow: 0 4px 16px rgba(0, 53, 128, 0.15);
+  background: white;
+}
+
+.locationBox:hover {
+  border-color: #003580;
+}
+
+.locationBox i {
+  color: #d84a38;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.locationSelect {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #333;
+  flex: 1;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.locationSelect option {
+  color: #333;
+  background: white;
+  padding: 0.5rem;
+}
+
+.searchBtn {
+  background: linear-gradient(135deg, #003580 0%, #002147 100%);
+  border: none;
+  padding: 0.9rem 2.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 53, 128, 0.25);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+}
+
+.searchBtn:hover {
+  background: linear-gradient(135deg, #002147 0%, #001a35 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 53, 128, 0.35);
+}
+
+.searchBtn:active {
+  transform: translateY(0);
+}
+
+.searchSuggestions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e8e8e8;
+  margin-top: 1.5rem;
+}
+
+.suggestionLabel {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.suggestionTags {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.suggestionTag {
+  background: white;
+  border: 1px solid #e8e8e8;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.suggestionTag:hover {
+  background: #003580;
+  color: white;
+  border-color: #003580;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 53, 128, 0.2);
 }
 
 .searchBox input::placeholder {
@@ -274,21 +410,26 @@
   color: #d84a38;
   font-size: 1.1rem;
   flex-shrink: 0;
+  width: 20px;
+  text-align: center;
 }
 
-.locationBox input {
+.locationSelect {
   border: none;
   outline: none;
   background: transparent;
   font-size: 0.95rem;
   color: #333;
   flex: 1;
+  cursor: pointer;
   font-family: inherit;
+  font-weight: 500;
 }
 
-.locationBox input::placeholder {
-  color: #999;
-  font-weight: 500;
+.locationSelect option {
+  color: #333;
+  background: white;
+  padding: 0.5rem;
 }
 
 .searchBtn {
@@ -398,140 +539,7 @@
   margin-bottom: 1.5rem;
 }
 
-.searchInputGroup {
-  display: flex;
-  gap: 1rem;
-  flex: 1;
-  align-items: center;
-}
 
-.searchBox {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: white;
-  padding: 0.9rem 1.25rem;
-  border-radius: 10px;
-  border: 2px solid #e8e8e8;
-  transition: all 0.3s ease;
-  flex: 1.5;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.searchBox:focus-within {
-  border-color: #003580;
-  box-shadow: 0 4px 16px rgba(0, 53, 128, 0.15);
-  background: white;
-}
-
-.searchIcon {
-  width: 20px;
-  height: 20px;
-  color: #999;
-  flex-shrink: 0;
-  transition: color 0.3s ease;
-}
-
-.searchBox:focus-within .searchIcon {
-  color: #003580;
-}
-
-.searchInput {
-  border: none;
-  outline: none;
-  flex: 1;
-  font-size: 0.95rem;
-  color: #333;
-  background: transparent;
-  font-family: inherit;
-}
-
-.searchInput::placeholder {
-  color: #bbb;
-}
-
-.locationInputGroup {
-  display: flex;
-  gap: 1rem;
-  flex: 1;
-  align-items: center;
-}
-
-.locationBox {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: white;
-  padding: 0.9rem 1.25rem;
-  border-radius: 10px;
-  border: 2px solid #e8e8e8;
-  transition: all 0.3s ease;
-  flex: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.locationBox:focus-within {
-  border-color: #003580;
-  box-shadow: 0 4px 16px rgba(0, 53, 128, 0.15);
-}
-
-.locationIcon {
-  width: 20px;
-  height: 20px;
-  color: #999;
-  flex-shrink: 0;
-  transition: color 0.3s ease;
-}
-
-.locationBox:focus-within .locationIcon {
-  color: #003580;
-}
-
-.locationSelect {
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 0.95rem;
-  color: #333;
-  flex: 1;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: 500;
-}
-
-.locationSelect option {
-  color: #333;
-  background: white;
-}
-
-.searchBtn {
-  background: linear-gradient(135deg, #003580 0%, #002147 100%);
-  color: white;
-  border: none;
-  padding: 0.9rem 2.5rem;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 53, 128, 0.25);
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-family: inherit;
-}
-
-.searchBtn:hover {
-  background: linear-gradient(135deg, #002147 0%, #001a35 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 53, 128, 0.35);
-}
-
-.searchBtn:active {
-  transform: translateY(0);
-}
 
 .searchSuggestions {
   display: flex;
