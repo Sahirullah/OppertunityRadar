@@ -1,0 +1,206 @@
+.header {
+  background: white;
+  border-bottom: 1px solid #e8e8e8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #003580;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+.logo:hover {
+  color: #002147;
+  transform: scale(1.05);
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+  flex: 1;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #333;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+}
+
+.navLink:hover {
+  color: #003580;
+}
+
+.navLink.active {
+  color: #003580;
+  font-weight: 600;
+  border-bottom-color: #003580;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.iconBtn:hover {
+  color: #003580;
+  background: #f5f5f5;
+  transform: scale(1.1);
+}
+
+.profileBtn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.profileBtn:hover {
+  color: #003580;
+  background: #f5f5f5;
+}
+
+.postBtn {
+  background: #003580;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.postBtn:hover {
+  background: #002147;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 53, 128, 0.3);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0.75rem 1rem;
+    gap: 1rem;
+  }
+
+  .nav {
+    gap: 1rem;
+  }
+
+  .navLink {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-wrap: wrap;
+    padding: 0.75rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .navLink {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 6px;
+    background: #f5f5f5;
+    border-bottom: none;
+  }
+
+  .navLink:hover {
+    background: #e8e8e8;
+  }
+
+  .navLink.active {
+    background: #003580;
+    color: white;
+  }
+
+  .actions {
+    gap: 0.5rem;
+  }
+
+  .postBtn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .nav {
+    gap: 0.25rem;
+  }
+
+  .navLink {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .postBtn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+
+  .iconBtn {
+    font-size: 1rem;
+  }
+}

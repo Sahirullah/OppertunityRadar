@@ -1,65 +1,214 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import Header from '../components/Header';
+import styles from './job-finder/job-finder.module.css';
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState('my-jobs');
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [jobs, setJobs] = useState([
+    {
+      id: 1,
+      title: 'Office Assistant / Social Media Assistant',
+      company: 'JD',
+      location: 'London, UK',
+      postedTime: '3 days ago',
+      match: 92,
+      description: 'As the Digital Marketing Manager, E-Commerce, you will be collaborating with E-Commerce department and Communication department...',
+      recommended: true,
+      applied: false,
+      saved: false,
+    },
+    {
+      id: 2,
+      title: 'Office Assistant / Social Media Assistant',
+      company: 'Facebook',
+      location: 'London, UK',
+      postedTime: '2 days ago',
+      match: 80,
+      description: 'As the Digital Marketing Manager, E-Commerce, you will be collaborating with E-Commerce department and Communication department...',
+      recommended: false,
+      applied: true,
+      saved: true,
+    },
+    {
+      id: 3,
+      title: 'Marketing & Communications Manager',
+      company: 'Unilever',
+      location: 'London, UK',
+      postedTime: '1 day ago',
+      match: 78,
+      description: 'Looking for a fun and rewarding career cheering people on as they gain their health and life back...',
+      recommended: false,
+      applied: false,
+      saved: false,
+    },
+  ]);
+
+  const handleApply = (jobId) => {
+    setJobs(jobs.map(job => 
+      job.id === jobId ? { ...job, applied: true } : job
+    ));
+  };
+
+  const handleSave = (jobId) => {
+    setJobs(jobs.map(job => 
+      job.id === jobId ? { ...job, saved: !job.saved } : job
+    ));
+  };
+
+  const selectedJobData = selectedJob || jobs[0];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <>
+      <Header />
+      <div className={styles.container}>
+        <main className={styles.main}>
+          <div className={styles.tabs}>
+            <button 
+              className={`${styles.tab} ${activeTab === 'my-jobs' ? styles.active : ''}`}
+              onClick={() => setActiveTab('my-jobs')}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              My CV's
+            </button>
+            <button 
+              className={`${styles.tab} ${activeTab === 'for-you' ? styles.active : ''}`}
+              onClick={() => setActiveTab('for-you')}
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+              For You
+            </button>
+            <button 
+              className={`${styles.tab} ${activeTab === 'saved' ? styles.active : ''}`}
+              onClick={() => setActiveTab('saved')}
+            >
+              Saved
+            </button>
+          </div>
+
+          <div className={styles.filters}>
+            <div className={styles.searchBox}>
+              <span>🔍</span>
+              <input type="text" placeholder="Search by job title" />
+            </div>
+            <div className={styles.locationBox}>
+              <span>📍</span>
+              <select>
+                <option>Choose Location</option>
+                <option>London, UK</option>
+                <option>New York, USA</option>
+                <option>Remote</option>
+              </select>
+            </div>
+            <button className={styles.searchBtn}>Search</button>
+          </div>
+
+          <div className={styles.filterTags}>
+            <button className={styles.filterTag}>Job Types ▼</button>
+            <button className={styles.filterTag}>Salaries ▼</button>
+            <button className={styles.filterTag}>Posted Time ▼</button>
+            <div className={styles.spacer}></div>
+            <span className={styles.matchLabel}>Your matching CV:</span>
+            <button className={styles.cvSelect}>Matthew's CV ▼</button>
+          </div>
+
+          <div className={styles.sortAndCount}>
+            <button className={styles.sortBtn}>⬇ Most Recent</button>
+            <span className={styles.count}>Showing {jobs.length} jobs</span>
+          </div>
+
+          <div className={styles.content}>
+            <div className={styles.jobsList}>
+              {jobs.map((job) => (
+                <div 
+                  key={job.id}
+                  className={`${styles.jobCard} ${selectedJob?.id === job.id ? styles.selected : ''}`}
+                  onClick={() => setSelectedJob(job)}
+                >
+                  <div className={styles.jobCardHeader}>
+                    <h3>{job.title}</h3>
+                    <span className={styles.matchBadge}>{job.match}</span>
+                  </div>
+                  <div className={styles.jobCardMeta}>
+                    <span className={styles.company}>{job.company}</span>
+                    <span className={styles.location}>{job.location}</span>
+                  </div>
+                  <p className={styles.jobCardDesc}>{job.description}</p>
+                  <div className={styles.jobCardFooter}>
+                    {job.recommended && <span className={styles.recommended}>⭐ Recommended - 2 days ago</span>}
+                    {job.applied && <span className={styles.applied}>✓ You applied - 2 days ago</span>}
+                    <button 
+                      className={styles.saveBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSave(job.id);
+                      }}
+                    >
+                      {job.saved ? '❤' : '🤍'}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className={styles.jobDetail}>
+              <h1>{selectedJobData.title}</h1>
+              <div className={styles.jobDetailMeta}>
+                <span className={styles.company}>{selectedJobData.company}</span>
+                <span className={styles.location}>{selectedJobData.location}</span>
+                <span className={styles.time}>{selectedJobData.postedTime}</span>
+                <span className={styles.star}>⭐</span>
+              </div>
+
+              <div className={styles.actionButtons}>
+                <button 
+                  className={styles.applyBtn}
+                  onClick={() => handleApply(selectedJobData.id)}
+                >
+                  {selectedJobData.applied ? '✓ Applied' : 'Apply'}
+                </button>
+                <button className={styles.customizeBtn}>Customize CV & Apply</button>
+                <span className={styles.matchScore}>{selectedJobData.match} great match</span>
+                <button className={styles.saveIconBtn}>🤍</button>
+              </div>
+
+              <div className={styles.matchingSection}>
+                <h3>How well is your CV matching?</h3>
+                <div className={styles.matchChart}>
+                  <div className={styles.matchItem}>
+                    <span className={styles.matchNumber}>92</span>
+                    <span className={styles.matchLabel}>Great match</span>
+                  </div>
+                  <div className={styles.chartVisual}>
+                    <div className={styles.circle}>
+                      <span>92</span>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.matchDetails}>
+                  <div className={styles.matchDetail}>
+                    <span className={styles.icon}>⚠</span>
+                    <span>6/10 skills matching</span>
+                  </div>
+                  <div className={styles.matchDetail}>
+                    <span className={styles.icon}>✓</span>
+                    <span>6/10 keywords matching</span>
+                  </div>
+                  <div className={styles.matchDetail}>
+                    <span className={styles.icon}>✓</span>
+                    <span>2/2 certificates matching</span>
+                  </div>
+                </div>
+                <button className={styles.improveBtn}>Improve CV</button>
+              </div>
+
+              <p className={styles.jobDescription}>
+                Looking for a fun and rewarding career cheering people on as they gain their health and life back? Tie Terveyteen Acupuncture Clinic is a rewarding and positive place to work.
+              </p>
+            </div>
+          </div>
+        </main>
+      </div>
+    </>
   );
 }
