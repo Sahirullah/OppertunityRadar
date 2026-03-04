@@ -65,27 +65,6 @@ export default function Home() {
       <Header />
       <div className={styles.container}>
         <main className={styles.main}>
-          <div className={styles.tabs}>
-            <button 
-              className={`${styles.tab} ${activeTab === 'my-jobs' ? styles.active : ''}`}
-              onClick={() => setActiveTab('my-jobs')}
-            >
-              My CV's
-            </button>
-            <button 
-              className={`${styles.tab} ${activeTab === 'for-you' ? styles.active : ''}`}
-              onClick={() => setActiveTab('for-you')}
-            >
-              For You
-            </button>
-            <button 
-              className={`${styles.tab} ${activeTab === 'saved' ? styles.active : ''}`}
-              onClick={() => setActiveTab('saved')}
-            >
-              Saved
-            </button>
-          </div>
-
           <div className={styles.filters}>
             <div className={styles.searchBox}>
               <span>🔍</span>

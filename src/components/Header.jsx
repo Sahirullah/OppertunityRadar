@@ -36,7 +36,7 @@ export default function Header() {
           <button className={styles.iconBtn}>💬</button>
           <button className={styles.iconBtn}>❤️</button>
           <button className={styles.profileBtn}>👤</button>
-          <button className={styles.postBtn}>Post a job</button>
+          <button className={styles.postBtn}>Employer/Post job</button>
         </div>
       </div>
     </header>
