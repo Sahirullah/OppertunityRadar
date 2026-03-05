@@ -7,6 +7,30 @@ import styles from './profile.module.css';
 export default function ProfilePage() {
   const [userType, setUserType] = useState('jobseeker');
   const [activeTab, setActiveTab] = useState('overview');
+  const [showCVModal, setShowCVModal] = useState(false);
+  const [showJobModal, setShowJobModal] = useState(false);
+  const [cvs, setCVs] = useState([
+    { id: 1, name: 'Indeed Resume', type: 'view' },
+    { id: 2, name: 'MyResume-MS.pdf', type: 'download' }
+  ]);
+  const [newCVName, setNewCVName] = useState('');
+  const [jobForm, setJobForm] = useState({
+    title: '',
+    description: '',
+    salary: '',
+    location: '',
+    workType: 'onsite',
+    requirements: {
+      cv: false,
+      education: false,
+      experience: false,
+      interview: false,
+    }
+  });
+  const [activeJobs, setActiveJobs] = useState([
+    { id: 1, title: 'Senior Developer', status: 'active', posted: '2024-03-01', r: true, experience: true, interview: true } },
+    { id: 2, title: 'Marketing Manager', status: 'active', posted: '2024-02-28', requirements: { cv: true, education: false, experience: true, interview: false } },
+  ]);
 
   // Job Seeker Data
   const jobSeekerProfile = {
@@ -41,13 +65,80 @@ export default function ProfilePage() {
     email: 'hr@techsolutions.com',
     phone: '+1 (555) 123-4567',
     logo: 'TS',
-    activeJobs: 12,
+    activeJobs: acngth,
     pendingApplications: 45,
     totalViews: 1250,
     applicationsReceived: 320,
   };
 
   const profile = userType === 'jobseeker' ? jobSeekerProfile : employerProfile;
+
+  const handleUploadCV = () => {
+    if (newCVName.trim()) {
+      setCVs([...cvs, { id: cvs.length + 1, name: newCVName, type: 'download' }]);
+      setNewCVName('');
+      setShowCVModal(false);
+    }
+  };
+
+  const handleDeleteCV = (id) => {
+    setCVs(cvs.filter(cv => cv.id !== id));
+  };
+
+  const handleJobFormChange = (e) => {
+    const { name, value } = e.target;
+    setJobForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleRequirementChange = (requirement) => {
+    setJobForm(prev => ({
+      ...prev,
+      requirements: {
+        ...prev.requirements,
+        [requirement]: !prev.requirements[requirement]
+      }
+    }));
+  };
+
+  const handlePostJob = () => {
+    if (jobForm.title && jobForm.description && jobForm.location) {
+      const newJob = {
+        id: activeJobs.length + 1,
+        title: jobForm.title,
+     status: 'active',
+        posted: new Date().toISOString().split('T')[0],
+        requirements: jobForm.requirements
+      };
+      setActiveJobs([...activeJobs, newJob]);
+      setJobForm({
+        title: '',
+        description: '',
+        salary: '',
+        location: '',
+        workType: 'onsite',
+        requirements: {
+          cv: false,
+          education: false,
+          experience: false,
+          interview: false,
+        }
+      });
+      setShowJobModal(false);
+    }
+  };
+
+  const toggleJobStatus = (id) => {
+    setActiveJobs(activeJobs.map(job =>
+      job.id === id ? { ...job, status: job.status === 'active' ? 'inactive' : 'active' } : job
+    ));
+  };
+
+  const deleteJob = (id) => {
+    setActiveJobs(activeJobs.filter(job => job.id !== id));
+  };
 
   return (
     <>
@@ -56,7 +147,7 @@ export default function ProfilePage() {
         {/* User Type Selector */}
         <div className={styles.typeSelector}>
           <button
-            className={`${styles.typeBtn} ${userType === 'jobseeker' ? styles.active : ''}`}
+         styles.active : ''}`}
             onClick={() => setUserType('jobseeker')}
           >
             👤 Job Seeker
@@ -91,7 +182,7 @@ export default function ProfilePage() {
                 <div className={styles.progressBar}>
                   <div className={styles.progress} style={{ width: `${profile.completionPercentage}%` }}></div>
                 </div>
-                <div className={styles.percentage}>{profile.completionPercentage}%</div>
+              
               </div>
             )}
           </div>
@@ -107,7 +198,7 @@ export default function ProfilePage() {
                   Overview
                 </button>
                 <button
-                  className={`${styles.tab} ${activeTab === 'applied' ? styles.active : ''}`}
+                  c=== 'applied' ? styles.active : ''}`}
                   onClick={() => setActiveTab('applied')}
                 >
                   Applied Jobs
@@ -119,7 +210,7 @@ export default function ProfilePage() {
                   Saved Jobs
                 </button>
                 <button
-                  className={`${styles.tab} ${activeTab === 'skills' ? styles.active : ''}`}
+                  className={`${styles.tab} ${actiles.active : ''}`}
                   onClick={() => setActiveTab('skills')}
                 >
                   Skills & Education
@@ -146,7 +237,7 @@ export default function ProfilePage() {
                   Active Jobs
                 </button>
                 <button
-                  className={`${styles.tab} ${activeTab === 'applications' ? styles.active : ''}`}
+                 === 'applications' ? styles.active : ''}`}
                   onClick={() => setActiveTab('applications')}
                 >
                   Applications
@@ -158,7 +249,7 @@ export default function ProfilePage() {
                   Analytics
                 </button>
                 <button
-                  className={`${styles.tab} ${activeTab === 'settings' ? styles.active : ''}`}
+                  classNa= 'settings' ? styles.active : ''}`}
                   onClick={() => setActiveTab('settings')}
                 >
                   Settings
@@ -174,17 +265,28 @@ export default function ProfilePage() {
                 {activeTab === 'overview' && (
                   <div className={styles.section}>
                     <h2>Resume & CV</h2>
-                    <div className={styles.resumeList}>
-                      <div className={styles.resumeItem}>
-                        <span>📄 Indeed Resume</span>
-                        <button className={styles.actionBtn}>View</button>
-                      </div>
-                      <div className={styles.resumeItem}>
-                        <span>📄 MyResume-MS.pdf</span>
-                        <button className={styles.actionBtn}>Download</button>
-                      </div>
+                 iv className={styles.resumeList}>
+                      {cvs.map((cv) => (
+                        <div key={cv.id} className={styles.resumeItem}>
+                          <span>📄 {cv.name}</span>
+                          <div className={styles.resumeActions}>
+                            <button className={styles.actionBtn}>{cv.type === 'view' ? 'View' : 'Download'}</button>
+                            <button 
+                              className={styles.deleteBtn}
+                              onClick={() => handleDeleteCV(cv.id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <button className={styles.uploadBtn}>+ Upload New Resume</button>
+                    <button 
+                      className={styles.uploadBtn}
+                      onClick={() => setShowCVModal(true)}
+                    >
+                      + Upload New Resume
+                    </button>
                   </div>
                 )}
 
@@ -232,7 +334,7 @@ export default function ProfilePage() {
                     <h2>Skills</h2>
                     <div className={styles.skillsList}>
                       {profile.skills.map((skill, idx) => (
-                        <span key={idx} className={styles.skillTag}>{skill}</span>
+                        <span key={idx} className={stan>
                       ))}
                     </div>
 
@@ -293,14 +395,48 @@ export default function ProfilePage() {
                         <div className={styles.statLabel}>Applications Received</div>
                       </div>
                     </div>
-                    <button className={styles.uploadBtn}>+ Post New Job</button>
+                    <button 
+                      className={styles.uploadBtn}
+                      onClick={() => setShowJobModal(true)}
+                    >
+                      + Post New Job
+                    </button>
                   </div>
                 )}
 
                 {activeTab === 'jobs' && (
                   <div className={styles.section}>
                     <h2>Active Job Posts</h2>
-                    <p className={styles.placeholder}>You have {employerProfile.activeJobs} active job postings</p>
+                    <div className={styles.jobsList}>
+                      {activeJobs.map((job) => (
+                        <div key={job.id} className={styles.jobItem}>
+                          <div className={styles.jobInfo}>
+                            <h3>{job.title}</h3>
+                  b.posted}</p>
+                            <div className={styles.requirementsTags}>
+                              {job.requirements.cv && <span className={styles.reqTag}>CV Required</span>}
+                              {job.requirements.education && <span className={styles.reqTag}>Education</span>}
+                              {job.requirements.experience && <span className={styles.reqTag}>Experience</span>}
+                              {job.requirements.inw</span>}
+                            </div>
+                          </div>
+                          <div className={styles.jobActions}>
+                            <button 
+                              className={`${styles.statusBtn} ${job.status === 'active' ? styles.active : ''}`}
+                              onClick={() => toggleJobStatus(job.id)}
+                            >
+                              {job.status === 'active' ? '✓ Active' : '✕ Inactive'}
+                            </button>
+                            <button 
+                              className={styles.deleteBtn}
+                              onClick={() => deleteJob(job.id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 
@@ -316,7 +452,7 @@ export default function ProfilePage() {
                     <h2>Analytics</h2>
                     <div className={styles.analyticsGrid}>
                       <div className={styles.analyticsCard}>
-                        <h3>Job Views</h3>
+                  <h3>Job Views</h3>
                         <p className={styles.analyticsValue}>{employerProfile.totalViews}</p>
                       </div>
                       <div className={styles.analyticsCard}>
@@ -350,6 +486,334 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      {/* CV Upload Modal */}
+      {showCVModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowCVModal(false)}>
+          <div ce) => e.stopPropagation()}>
+        </div>
+      </div>
+
+      {/* CV Modal */}
+      {showCVModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowCVModal(false)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2>{cvAction === 'create' ? 'Create New CV' : 'Upload CV'}</h2>
+              <button className={styles.closeBtn} onClick={() => setShowCVModal(false)}>✕</button>
+            </div>
+            <div className={styles.modalBody}>
+              {cvAction === 'create' ? (
+                <>
+                  <div className={styles.formGroup}>
+                    <label>CV Name</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., My Resume 2024"
+                      value={newCVName}
+                      onChange={(e) => setNewCVName(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label>Professional Summary</label>
+                    <textarea placeholder="Write a brief summary about yourself..." rows="4"></textarea>
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label>Skills</label>
+                    <input type="text" placeholder="e.g., React, Node.js, Python" />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label>Experience</label>
+                    <textarea placeholder="Describe your work experience..." rows="4"></textarea>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className={styles.formGroup}>
+                    <label>Upload CV File</label>
+                    <div className={styles.fileUpload}>
+                      <i className="fa-solid fa-cloud-arrow-up"></i>
+                      <p>Drag and drop your CV here or click to browse</p>
+                      <input type="file" accept=".pdf,.doc,.docx" />
+                    </div>
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label>CV Name</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., My Resume 2024"
+                      value={newCVName}
+                      onChange={(e) => setNewCVName(e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.modalFooter}>
+              <button className={styles.cancelBtn} onClick={() => setShowCVModal(false)}>Cancel</button>
+              <button className={styles.submitBtn} onClick={handleCreateCV}>
+                {cvAction === 'create' ? 'Create CV' : 'Upload CV'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Job Posting Modal */}
+      {showJobModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowJobModal(false)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2>Post New Job</h2>
+              <button className={styles.closeBtn} onClick={() => setShowJobModal(false)}>✕</button>
+            </div>
+            <div className={styles.modalBody}>
+              <div className={styles.formGroup}>
+                <label>Job Title *</label>
+                <input
+                  type="text"
+                  placeholder="e.g., Senior React Developer"
+                  value={jobData.title}
+                  onChange={(e) => setJobData({...jobData, title: e.target.value})}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Job Description *</label>
+                <textarea
+                  placeholder="Describe the job responsibilities and requirements..."
+                  rows="4"
+                  value={jobData.description}
+                  onChange={(e) => setJobData({...jobData, description: e.target.value})}
+                ></textarea>
+              </div>
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label>Salary *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., PKR 100,000 - 150,000"
+                    value={jobData.salary}
+                    onChange={(e) => setJobData({...jobData, salary: e.target.value})}
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Location *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Peshawar, PK"
+                    value={jobData.location}
+                    onChange={(e) => setJobData({...jobData, location: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              <div className={styles.requirementsSection}>
+                <h3>Job Requirements</h3>
+                <div className={styles.requirementsList}>
+                  <label className={styles.requirementItem}>
+                    <input
+                      type="checkbox"
+                      checked={jobRequirements.uploadCV}
+                      onChange={() => toggleRequirement('uploadCV')}
+                    />
+                    <span>Upload CV Required</span>
+                  </label>
+                  <label className={styles.requirementItem}>
+                    <input
+                      type="checkbox"
+                      checked={jobRequirements.education}
+                      onChange={() => toggleRequirement('education')}
+                    />
+                    <span>Education Required</span>
+                  </label>
+                  <label className={styles.requirementItem}>
+                    <input
+                      type="checkbox"
+                      checked={jobRequirements.experience}
+                      onChange={() => toggleRequirement('experience')}
+                    />
+                    <span>Experience Required</span>
+                  </label>
+                  <label className={styles.requirementItem}>
+                    <input
+                      type="checkbox"
+                      checked={jobRequirements.interviewAvailability}
+                      onChange={() => toggleRequirement('interviewAvailability')}
+                    />
+                    <span>Interview Availability Required</span>
+                  </label>
+                  <label className={styles.requirementItem}>
+                    <input
+                      type="checkbox"
+                      checked={jobRequirements.location}
+                      onChange={() => toggleRequirement('location')}
+                    />
+                    <span>Location Required</span>
+                  </label>
+                </div>
+
+                <h3 style={{marginTop: '1.5rem'}}>Work Type</h3>
+                <div className={styles.workTypeList}>
+                  <label className={styles.requirementItem}>
+                    <input
+                      type="checkbox"
+                      checked={jobRequirements.remote}
+                      onChange={() => toggleRequirement('remote')}
+                    />
+                    <span>Remote</span>
+                  </label>
+                  <label className={styles.requirementItem}>
+                    <input
+                      type="checkbox"
+                      checked={jobRequirements.onsite}
+                      onChange={() => toggleRequirement('onsite')}
+                    />
+                    <span>On-site</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalFooter}>
+              <button className={styles.cancelBtn} onClick={() => setShowJobModal(false)}>Cancel</button>
+              <button className={styles.submitBtn} onClick={handlePostJob}>Post Job</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}           <div className={styles.modalBody}>
+.submitBtn} onClick={handlePostJob}>Post Job</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
+   type="checkbox"
+                      checked={jobForm.requirements.interview}
+                      onChange={() => handleRequirementChange('interview')}
+                    />
+                    <span>Interview Required</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalFooter}>
+              <button className={styles.cancelBtn} onClick={() => setShowJobModal(false)}>Cancel</button>
+              <button className={stylesquired</span>
+                  </label>
+                  <label className={styles.checkboxLabel}>
+                    <input
+                      type="checkbox"
+                      checked={jobForm.requirements.experience}
+                      onChange={() => handleRequirementChange('experience')}
+                    />
+                    <span>Experience Required</span>
+                  </label>
+                  <label className={styles.checkboxLabel}>
+                    <input
+                   obForm.requirements.cv}
+                      onChange={() => handleRequirementChange('cv')}
+                    />
+                    <span>CV/Resume Required</span>
+                  </label>
+                  <label className={styles.checkboxLabel}>
+                    <input
+                      type="checkbox"
+                      checked={jobForm.requirements.education}
+                      onChange={() => handleRequirementChange('education')}
+                    />
+                    <span>Education Re   <option value="onsite">On-site</option>
+                  <option value="remote">Remote</option>
+                  <option value="hybrid">Hybrid</option>
+                </select>
+              </div>
+              <div className={styles.formGroup}>
+                <label>Job Requirements</label>
+                <div className={styles.checkboxGroup}>
+                  <label className={styles.checkboxLabel}>
+                    <input
+                      type="checkbox"
+                      checked={j</label>
+                  <input
+                    type="text"
+                    name="location"
+                    placeholder="e.g., Peshawar, PK"
+                    value={jobForm.location}
+                    onChange={handleJobFormChange}
+                  />
+                </div>
+              </div>
+              <div className={styles.formGroup}>
+                <label>Work Type</label>
+                <select name="workType" value={jobForm.workType} onChange={handleJobFormChange}>
+                          <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label>Salary Range</label>
+                  <input
+                    type="text"
+                    name="salary"
+                    placeholder="e.g., PKR 100,000 - 150,000"
+                    value={jobForm.salary}
+                    onChange={handleJobFormChange}
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Locationvalue={jobForm.title}
+                  onChange={handleJobFormChange}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Job Description</label>
+                <textarea
+                  name="description"
+                  placeholder="Describe the job responsibilities and requirements"
+                  value={jobForm.description}
+                  onChange={handleJobFormChange}
+                  rows="4"
+                />
+              </div>
+   stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2>Post New Job</h2>
+              <button className={styles.closeBtn} onClick={() => setShowJobModal(false)}>✕</button>
+            </div>
+            <div className={styles.modalBody}>
+              <div className={styles.formGroup}>
+                <label>Job Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="e.g., Senior Developer"
+                  >
+            <div className={styles.modalFooter}>
+              <button className={styles.cancelBtn} onClick={() => setShowCVModal(false)}>Cancel</button>
+              <button className={styles.submitBtn} onClick={handleUploadCV}>Upload Resume</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Job Posting Modal */}
+      {showJobModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowJobModal(false)}>
+          <div className={styles.modal} onClick={(e) => e.                 onChange={(e) => setNewCVName(e.target.value)}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Upload File</label>
+                <div className={styles.fileUpload}>
+                  <i className="fa-solid fa-cloud-arrow-up"></i>
+                  <p>Drag and drop your file here or click to browse</p>
+                  <input type="file" accept=".pdf,.doc,.docx" />
+                </div>
+              </div>
+            </div              <div className={styles.formGroup}>
+                <label>Resume Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g., My Resume 2024"
+                  value={newCVName}
+ 
