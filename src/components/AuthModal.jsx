@@ -2,9 +2,13 @@
 
 import { useState } from 'react';
 import styles from './AuthModal.module.css';
+import { useAuth } from '../context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function AuthModal({ onClose }) {
   const [isLogin, setIsLogin] = useState(true);
+  const { login } = useAuth();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -22,13 +26,29 @@ export default function AuthModal({ onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     if (isLogin) {
-      console.log('Login:', { email: formData.email, password: formData.password });
+      // Login
+      login({
+        email: formData.email,
+        fullName: formData.email.split('@')[0],
+        userType: 'jobseeker'
+      });
     } else {
-      console.log('Register:', formData);
+      // Register
+      if (formData.password !== formData.confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+      }
+      login({
+        email: formData.email,
+        fullName: formData.fullName,
+        userType: 'jobseeker'
+      });
     }
-    // Add your API call here
+    
     onClose();
+    router.push('/profile');
   };
 
   return (

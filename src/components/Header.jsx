@@ -26,6 +26,17 @@ export default function Header() {
     setShowProfileMenu(false);
   };
 
+  const handleSignOut = () => {
+    // Clear any auth data from localStorage
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userType');
+    
+    // Close menu and redirect to home
+    setShowProfileMenu(false);
+    router.push('/');
+  };
+
   return (
     <>
       <header className={styles.header}>
@@ -128,9 +139,7 @@ export default function Header() {
                   </div>
                   <button 
                     className={styles.signOutBtn}
-                    onClick={() => {
-                      setShowProfileMenu(false);
-                    }}
+                    onClick={handleSignOut}
                   >
                     Sign out
                   </button>
