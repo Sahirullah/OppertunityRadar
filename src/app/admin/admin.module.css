@@ -339,22 +339,35 @@
   color: #d84a38;
 }
 
+.activateBtn {
+  color: #2e7d32;
+}
+
+.deactivateBtn {
+  color: #f57c00;
+}
+
+.approveBtn {
+  color: #2e7d32;
+}
+
+.rejectBtn {
+  color: #d84a38;
+}
+
 /* Modal */
 .modal {
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  z-index: 9999;
+  display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.modal.open {
-  display: flex;
+  pointer-events: auto;
 }
 
 .modalContent {
@@ -365,6 +378,7 @@
   width: 90%;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   animation: slideUp 0.3s ease;
+  pointer-events: auto;
 }
 
 @keyframes slideUp {

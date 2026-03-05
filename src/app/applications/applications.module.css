@@ -1,0 +1,236 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.main {
+  padding: 20px 0;
+}
+
+.header {
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.header p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.filterSection {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  background-color: white;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #666;
+}
+
+.filterBtn:hover {
+  border-color: #0066cc;
+  color: #0066cc;
+}
+
+.filterBtn.active {
+  background-color: #0066cc;
+  color: white;
+  border-color: #0066cc;
+}
+
+.applicationsList {
+  display: grid;
+  gap: 16px;
+}
+
+.applicationCard {
+  background: white;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.applicationCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #0066cc;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.jobInfo h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.company {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cardDetails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.value {
+  font-size: 14px;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.coverLetter {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin: 8px 0 0 0;
+  padding: 12px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border-left: 3px solid #0066cc;
+}
+
+.noApplications {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.noApplications p {
+  font-size: 16px;
+  color: #999;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .filterSection {
+    gap: 8px;
+  }
+
+  .filterBtn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .statusBadge {
+    align-self: flex-start;
+  }
+
+  .cardDetails {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .header p {
+    font-size: 14px;
+  }
+
+  .filterSection {
+    gap: 6px;
+  }
+
+  .filterBtn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .applicationCard {
+    padding: 16px;
+  }
+
+  .jobInfo h3 {
+    font-size: 16px;
+  }
+
+  .company {
+    font-size: 13px;
+  }
+
+  .detailItem {
+    margin-bottom: 8px;
+  }
+
+  .label {
+    font-size: 11px;
+  }
+
+  .value {
+    font-size: 13px;
+  }
+}

@@ -2,63 +2,65 @@
 
 import { useState } from 'react';
 import Header from '../components/Header';
+import ApplyFormModal from '../components/ApplyFormModal';
 import styles from './job-finder/job-finder.module.css';
+import { useJobs } from '../context/JobsContext';
+import { useSavedJobs } from '../context/SavedJobsContext';
+import { useApplications } from '../context/ApplicationsContext';
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState('my-jobs');
+  const { jobs: contextJobs } = useJobs();
+  const { saveJob, unsaveJob, isJobSaved } = useSavedJobs();
+  const { submitApplication } = useApplications();
   const [selectedJob, setSelectedJob] = useState(null);
-  const [jobs, setJobs] = useState([
-    {
-      id: 1,
-      title: 'Office Assistant / Social Media Assistant',
-      company: 'JD',
-      location: 'London, UK',
-      postedTime: '3 days ago',
-      match: 92,
-      description: 'As the Digital Marketing Manager, E-Commerce, you will be collaborating with E-Commerce department and Communication department...',
-      recommended: true,
-      applied: false,
-      saved: false,
-    },
-    {
-      id: 2,
-      title: 'Office Assistant / Social Media Assistant',
-      company: 'Facebook',
-      location: 'London, UK',
-      postedTime: '2 days ago',
-      match: 80,
-      description: 'As the Digital Marketing Manager, E-Commerce, you will be collaborating with E-Commerce department and Communication department...',
-      recommended: false,
-      applied: true,
-      saved: true,
-    },
-    {
-      id: 3,
-      title: 'Marketing & Communications Manager',
-      company: 'Unilever',
-      location: 'London, UK',
-      postedTime: '1 day ago',
-      match: 78,
-      description: 'Looking for a fun and rewarding career cheering people on as they gain their health and life back...',
-      recommended: false,
-      applied: false,
-      saved: false,
-    },
-  ]);
+  const [showApplyModal, setShowApplyModal] = useState(false);
+  const [applyingJob, setApplyingJob] = useState(null);
+  const [appliedJobs, setAppliedJobs] = useState({});
 
-  const handleApply = (jobId) => {
-    setJobs(jobs.map(job => 
-      job.id === jobId ? { ...job, applied: true } : job
-    ));
+  console.log('Home page - contextJobs:', contextJobs);
+
+  const hasApplied = (jobId) => {
+    return appliedJobs[jobId] || false;
   };
 
-  const handleSave = (jobId) => {
-    setJobs(jobs.map(job => 
-      job.id === jobId ? { ...job, saved: !job.saved } : job
-    ));
+  // Show only admin-posted jobs
+  const allJobs = contextJobs
+    .filter(job => job.status === 'active')
+    .map(job => ({
+      id: job.id,
+      title: job.title,
+      company: job.company,
+      location: job.location,
+      postedTime: job.postedTime,
+      match: job.match,
+      description: job.description,
+      recommended: job.recommended || false,
+      applied: hasApplied(job.id),
+      saved: isJobSaved(job.id),
+    }));
+
+  const handleApply = (job) => {
+    setApplyingJob(job);
+    setShowApplyModal(true);
   };
 
-  const selectedJobData = selectedJob || jobs[0];
+  const handleApplySubmit = (applicationData) => {
+    submitApplication(applicationData);
+    setAppliedJobs(prev => ({
+      ...prev,
+      [applicationData.jobId]: true
+    }));
+  };
+
+  const handleSave = (job) => {
+    if (isJobSaved(job.id)) {
+      unsaveJob(job.id);
+    } else {
+      saveJob(job);
+    }
+  };
+
+  const selectedJobData = selectedJob || allJobs[0];
 
   return (
     <>
@@ -98,101 +100,120 @@ export default function Home() {
 
           <div className={styles.sortAndCount}>
             <button className={styles.sortBtn}>⬇ Most Recent</button>
-            <span className={styles.count}>Showing {jobs.length} jobs</span>
+            <span className={styles.count}>Showing {allJobs.length} jobs</span>
           </div>
 
           <div className={styles.content}>
             <div className={styles.jobsList}>
-              {jobs.map((job) => (
-                <div 
-                  key={job.id}
-                  className={`${styles.jobCard} ${selectedJob?.id === job.id ? styles.selected : ''}`}
-                  onClick={() => setSelectedJob(job)}
-                >
-                  <div className={styles.jobCardHeader}>
-                    <h3>{job.title}</h3>
-                    <span className={styles.matchBadge}>{job.match}</span>
-                  </div>
-                  <div className={styles.jobCardMeta}>
-                    <span className={styles.company}>{job.company}</span>
-                    <span className={styles.location}>{job.location}</span>
-                  </div>
-                  <p className={styles.jobCardDesc}>{job.description}</p>
-                  <div className={styles.jobCardFooter}>
-                    {job.recommended && <span className={styles.recommended}>⭐ Recommended - 2 days ago</span>}
-                    {job.applied && <span className={styles.applied}>✓ You applied - 2 days ago</span>}
-                    <button 
-                      className={styles.saveBtn}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSave(job.id);
-                      }}
-                    >
-                      {job.saved ? '❤' : '🤍'}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.jobDetail}>
-              <h1>{selectedJobData.title}</h1>
-              <div className={styles.jobDetailMeta}>
-                <span className={styles.company}>{selectedJobData.company}</span>
-                <span className={styles.location}>{selectedJobData.location}</span>
-                <span className={styles.time}>{selectedJobData.postedTime}</span>
-                <span className={styles.star}>⭐</span>
-              </div>
-
-              <div className={styles.actionButtons}>
-                <button 
-                  className={styles.applyBtn}
-                  onClick={() => handleApply(selectedJobData.id)}
-                >
-                  {selectedJobData.applied ? '✓ Applied' : 'Apply'}
-                </button>
-                <button className={styles.customizeBtn}>Customize CV & Apply</button>
-                <span className={styles.matchScore}>{selectedJobData.match} great match</span>
-                <button className={styles.saveIconBtn}>🤍</button>
-              </div>
-
-              <div className={styles.matchingSection}>
-                <h3>How well is your CV matching?</h3>
-                <div className={styles.matchChart}>
-                  <div className={styles.matchItem}>
-                    <span className={styles.matchNumber}>92</span>
-                    <span className={styles.matchLabel}>Great match</span>
-                  </div>
-                  <div className={styles.chartVisual}>
-                    <div className={styles.circle}>
-                      <span>92</span>
+              {allJobs.length > 0 ? (
+                allJobs.map((job) => (
+                  <div 
+                    key={job.id}
+                    className={`${styles.jobCard} ${selectedJob?.id === job.id ? styles.selected : ''}`}
+                    onClick={() => setSelectedJob(job)}
+                  >
+                    <div className={styles.jobCardHeader}>
+                      <h3>{job.title}</h3>
+                      <span className={styles.matchBadge}>{job.match}</span>
+                    </div>
+                    <div className={styles.jobCardMeta}>
+                      <span className={styles.company}>{job.company}</span>
+                      <span className={styles.location}>{job.location}</span>
+                    </div>
+                    <p className={styles.jobCardDesc}>{job.description}</p>
+                    <div className={styles.jobCardFooter}>
+                      {job.recommended && <span className={styles.recommended}>⭐ Recommended - 2 days ago</span>}
+                      {job.applied && <span className={styles.applied}>✓ You applied - 2 days ago</span>}
+                      <button 
+                        className={styles.saveBtn}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSave(job);
+                        }}
+                      >
+                        {job.saved ? '❤' : '🤍'}
+                      </button>
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className={styles.noJobs}>
+                  <p>No jobs available yet. Check back soon!</p>
                 </div>
-                <div className={styles.matchDetails}>
-                  <div className={styles.matchDetail}>
-                    <span className={styles.icon}>⚠</span>
-                    <span>6/10 skills matching</span>
-                  </div>
-                  <div className={styles.matchDetail}>
-                    <span className={styles.icon}>✓</span>
-                    <span>6/10 keywords matching</span>
-                  </div>
-                  <div className={styles.matchDetail}>
-                    <span className={styles.icon}>✓</span>
-                    <span>2/2 certificates matching</span>
-                  </div>
-                </div>
-                <button className={styles.improveBtn}>Improve CV</button>
-              </div>
-
-              <p className={styles.jobDescription}>
-                Looking for a fun and rewarding career cheering people on as they gain their health and life back? Tie Terveyteen Acupuncture Clinic is a rewarding and positive place to work.
-              </p>
+              )}
             </div>
+
+            {allJobs.length > 0 && selectedJobData && (
+              <div className={styles.jobDetail}>
+                <h1>{selectedJobData.title}</h1>
+                <div className={styles.jobDetailMeta}>
+                  <span className={styles.company}>{selectedJobData.company}</span>
+                  <span className={styles.location}>{selectedJobData.location}</span>
+                  <span className={styles.time}>{selectedJobData.postedTime}</span>
+                  <span className={styles.star}>⭐</span>
+                </div>
+
+                <div className={styles.actionButtons}>
+                  <button 
+                    className={styles.applyBtn}
+                    onClick={() => handleApply(selectedJobData)}
+                  >
+                    {selectedJobData.applied ? '✓ Applied' : 'Apply'}
+                  </button>
+                  <button className={styles.customizeBtn}>Customize CV & Apply</button>
+                  <span className={styles.matchScore}>{selectedJobData.match} great match</span>
+                  <button className={styles.saveIconBtn}>🤍</button>
+                </div>
+
+                <div className={styles.matchingSection}>
+                  <h3>How well is your CV matching?</h3>
+                  <div className={styles.matchChart}>
+                    <div className={styles.matchItem}>
+                      <span className={styles.matchNumber}>{selectedJobData.match}</span>
+                      <span className={styles.matchLabel}>Great match</span>
+                    </div>
+                    <div className={styles.chartVisual}>
+                      <div className={styles.circle}>
+                        <span>{selectedJobData.match}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.matchDetails}>
+                    <div className={styles.matchDetail}>
+                      <span className={styles.icon}>⚠</span>
+                      <span>6/10 skills matching</span>
+                    </div>
+                    <div className={styles.matchDetail}>
+                      <span className={styles.icon}>✓</span>
+                      <span>6/10 keywords matching</span>
+                    </div>
+                    <div className={styles.matchDetail}>
+                      <span className={styles.icon}>✓</span>
+                      <span>2/2 certificates matching</span>
+                    </div>
+                  </div>
+                  <button className={styles.improveBtn}>Improve CV</button>
+                </div>
+
+                <p className={styles.jobDescription}>
+                  {selectedJobData.description}
+                </p>
+              </div>
+            )}
           </div>
         </main>
       </div>
+
+      {showApplyModal && applyingJob && (
+        <ApplyFormModal
+          job={applyingJob}
+          onClose={() => {
+            setShowApplyModal(false);
+            setApplyingJob(null);
+          }}
+          onSubmit={handleApplySubmit}
+        />
+      )}
     </>
   );
 }

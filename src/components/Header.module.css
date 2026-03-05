@@ -84,6 +84,13 @@
   line-height: 1;
 }
 
+.iconBtnWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .iconBtn i {
   display: inline-block;
   font-size: 1.2rem;
@@ -458,31 +465,58 @@
   .navLink {
     font-size: 0.85rem;
   }
+
+  .actions {
+    gap: 1rem;
+  }
+
+  .iconBtn,
+  .notificationBtn,
+  .profileBtn {
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1rem;
+  }
+
+  .iconBtn i,
+  .notificationBtn i,
+  .profileBtn i {
+    font-size: 1rem;
+  }
+
+  .postBtn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 768px) {
   .container {
     flex-wrap: wrap;
-    padding: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    gap: 0.75rem;
   }
 
   .logo {
     font-size: 1.2rem;
+    order: 1;
   }
 
   .nav {
     order: 3;
     width: 100%;
     gap: 0.5rem;
+    margin-top: 0.5rem;
   }
 
   .navLink {
     flex: 1;
     text-align: center;
-    padding: 0.5rem;
+    padding: 0.4rem 0.5rem;
     border-radius: 6px;
     background: #f5f5f5;
     border-bottom: none;
+    font-size: 0.8rem;
   }
 
   .navLink:hover {
@@ -495,47 +529,141 @@
   }
 
   .actions {
+    order: 2;
     gap: 0.5rem;
+    margin-left: auto;
+  }
+
+  .iconBtn,
+  .notificationBtn,
+  .profileBtn {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.9rem;
+    padding: 0.4rem;
+  }
+
+  .iconBtn i,
+  .notificationBtn i,
+  .profileBtn i {
+    font-size: 0.9rem;
+  }
+
+  .divider {
+    display: none;
   }
 
   .postBtn {
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    margin-left: 0;
   }
 
   .profileMenu {
     right: -1rem;
+    min-width: 240px;
+  }
+
+  .badge {
+    width: 24px;
+    height: 24px;
+    font-size: 0.65rem;
+    top: -6px;
+    right: -6px;
+  }
+
+  .iconBtnWrapper {
+    position: relative;
   }
 }
 
 @media (max-width: 480px) {
   .container {
     padding: 0.5rem;
+    gap: 0.5rem;
   }
 
   .logo {
     font-size: 1rem;
+    order: 1;
   }
 
   .nav {
+    order: 3;
+    width: 100%;
     gap: 0.25rem;
+    margin-top: 0.4rem;
   }
 
   .navLink {
-    padding: 0.4rem 0.5rem;
-    font-size: 0.75rem;
+    padding: 0.35rem 0.4rem;
+    font-size: 0.7rem;
+    border-radius: 4px;
+  }
+
+  .actions {
+    order: 2;
+    gap: 0.3rem;
+    margin-left: auto;
+  }
+
+  .iconBtn,
+  .notificationBtn,
+  .profileBtn {
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 0.8rem;
+    padding: 0.3rem;
+  }
+
+  .iconBtn i,
+  .notificationBtn i,
+  .profileBtn i {
+    font-size: 0.8rem;
   }
 
   .postBtn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.75rem;
-  }
-
-  .iconBtn {
-    font-size: 1rem;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.65rem;
+    display: none;
   }
 
   .profileMenu {
-    min-width: 240px;
+    right: -0.5rem;
+    min-width: 200px;
+  }
+
+  .menuHeader {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .menuItem {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+    gap: 0.5rem;
+  }
+
+  .menuItem i {
+    width: 16px;
+    font-size: 0.9rem;
+  }
+
+  .menuFooter {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  .signOutBtn {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .badge {
+    width: 20px;
+    height: 20px;
+    font-size: 0.6rem;
+    top: -4px;
+    right: -4px;
   }
 }

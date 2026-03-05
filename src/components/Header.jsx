@@ -5,10 +5,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styles from './Header.module.css';
 import AuthModal from './AuthModal';
+import { useSavedJobs } from '../context/SavedJobsContext';
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const { savedJobs } = useSavedJobs();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
@@ -61,14 +63,19 @@ export default function Header() {
           </nav>
 
           <div className={styles.actions}>
-            <button 
-              className={styles.iconBtn} 
-              title="Saved"
-              data-tooltip="Saved"
-              onClick={handleFavorites}
-            >
-              <i className="fa-regular fa-bookmark"></i>
-            </button>
+            <div className={styles.iconBtnWrapper}>
+              <button 
+                className={styles.iconBtn} 
+                title="Saved"
+                data-tooltip="Saved"
+                onClick={handleFavorites}
+              >
+                <i className="fa-regular fa-bookmark"></i>
+              </button>
+              {savedJobs.length > 0 && (
+                <span className={styles.badge}>{savedJobs.length}</span>
+              )}
+            </div>
             <button 
               className={styles.iconBtn} 
               title="Messages"
@@ -105,6 +112,13 @@ export default function Header() {
                   >
                     <i className="fa-solid fa-user"></i>
                     Profile
+                  </button>
+                  <button 
+                    className={styles.menuItem}
+                    onClick={() => handleMenuClick('/applications')}
+                  >
+                    <i className="fa-solid fa-file-lines"></i>
+                    My applications
                   </button>
                   <button 
                     className={styles.menuItem}

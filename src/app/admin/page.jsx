@@ -3,18 +3,14 @@
 import { useState } from 'react';
 import Header from '../../components/Header';
 import styles from './admin.module.css';
+import { useJobs } from '../../context/JobsContext';
 
 export default function AdminPanel() {
+  const { jobs, addJob, deleteJob, toggleJobStatus } = useJobs();
   const [activeTab, setActiveTab] = useState('jobs');
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
-
-  const [jobs, setJobs] = useState([
-    { id: 1, title: 'Office Assistant', company: 'JD', location: 'London', status: 'active', applications: 12 },
-    { id: 2, title: 'Marketing Manager', company: 'Facebook', location: 'London', status: 'active', applications: 8 },
-    { id: 3, title: 'Social Media Manager', company: 'Unilever', location: 'Remote', status: 'inactive', applications: 5 },
-  ]);
 
   const [users, setUsers] = useState([
     { id: 1, name: 'Matthew', email: 'matthew@example.com', role: 'user', status: 'active', joined: '2024-01-15' },
@@ -27,6 +23,15 @@ export default function AdminPanel() {
     { id: 2, jobTitle: 'Marketing Manager', applicant: 'Sarah', status: 'approved', date: '2024-02-28' },
     { id: 3, jobTitle: 'Social Media Manager', applicant: 'John', status: 'rejected', date: '2024-02-25' },
   ]);
+
+  const [formData, setFormData] = useState({
+    title: '',
+    company: '',
+    location: '',
+    name: '',
+    email: '',
+    role: 'user',
+  });
 
   const stats = [
     { label: 'Total Jobs', value: jobs.length, change: '+2 this month' },
@@ -48,23 +53,54 @@ export default function AdminPanel() {
 
   const closeModal = () => {
     setShowModal(false);
+    setFormData({ title: '', company: '', location: '', name: '', email: '', role: 'user' });
   };
 
   const handleAddJob = (e) => {
     e.preventDefault();
-    closeModal();
+    if (activeTab === 'jobs' && formData.title && formData.company && formData.location) {
+      addJob(formData);
+      alert('Job added successfully!');
+      closeModal();
+    } else if (activeTab === 'users' && formData.name && formData.email) {
+      const newUser = {
+        id: Math.max(...users.map(u => u.id), 0) + 1,
+        name: formData.name,
+        email: formData.email,
+        role: formData.role,
+        status: 'active',
+        joined: new Date().toISOString().split('T')[0],
+      };
+      setUsers([...users, newUser]);
+      alert('User added successfully!');
+      closeModal();
+    } else {
+      alert('Please fill in all required fields');
+    }
   };
 
   const handleDeleteJob = (id) => {
-    setJobs(jobs.filter(job => job.id !== id));
+    if (confirm('Are you sure you want to delete this job?')) {
+      deleteJob(id);
+    }
   };
 
   const handleDeleteUser = (id) => {
-    setUsers(users.filter(user => user.id !== id));
+    if (confirm('Are you sure you want to delete this user?')) {
+      setUsers(users.filter(user => user.id !== id));
+    }
   };
 
   const handleDeleteApplication = (id) => {
-    setApplications(applications.filter(app => app.id !== id));
+    if (confirm('Are you sure you want to delete this application?')) {
+      setApplications(applications.filter(app => app.id !== id));
+    }
+  };
+
+  const handleUpdateApplicationStatus = (id, newStatus) => {
+    setApplications(applications.map(app =>
+      app.id === id ? { ...app, status: newStatus } : app
+    ));
   };
 
   return (
@@ -165,9 +201,18 @@ export default function AdminPanel() {
                       </td>
                       <td>{job.applications}</td>
                       <td>
-                        <button className={`${styles.actionBtn} ${styles.deleteBtn}`} onClick={() => handleDeleteJob(job.id)}>
-                          🗑️
-                        </button>
+                        <div className={styles.actions}>
+                          <button
+                            className={`${styles.actionBtn} ${job.status === 'active' ? styles.deactivateBtn : styles.activateBtn}`}
+                            onClick={() => toggleJobStatus(job.id)}
+                            title={job.status === 'active' ? 'Deactivate' : 'Activate'}
+                          >
+                            {job.status === 'active' ? '⏸️' : '▶️'}
+                          </button>
+                          <button className={`${styles.actionBtn} ${styles.deleteBtn}`} onClick={() => handleDeleteJob(job.id)}>
+                            🗑️
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -237,9 +282,25 @@ export default function AdminPanel() {
                       </td>
                       <td>{app.date}</td>
                       <td>
-                        <button className={`${styles.actionBtn} ${styles.deleteBtn}`} onClick={() => handleDeleteApplication(app.id)}>
-                          🗑️
-                        </button>
+                        <div className={styles.actions}>
+                          <button
+                            className={`${styles.actionBtn} ${styles.approveBtn}`}
+                            onClick={() => handleUpdateApplicationStatus(app.id, 'approved')}
+                            title="Approve"
+                          >
+                            ✓
+                          </button>
+                          <button
+                            className={`${styles.actionBtn} ${styles.rejectBtn}`}
+                            onClick={() => handleUpdateApplicationStatus(app.id, 'rejected')}
+                            title="Reject"
+                          >
+                            ✕
+                          </button>
+                          <button className={`${styles.actionBtn} ${styles.deleteBtn}`} onClick={() => handleDeleteApplication(app.id)}>
+                            🗑️
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -258,10 +319,75 @@ export default function AdminPanel() {
               <button className={styles.closeBtn} onClick={closeModal}>✕</button>
             </div>
             <form onSubmit={handleAddJob}>
-              <div className={styles.formGroup}>
-                <label>Name</label>
-                <input type="text" placeholder="Enter name" />
-              </div>
+              {activeTab === 'jobs' && (
+                <>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Job Title</label>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="Enter job title"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Company</label>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="Enter company name"
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Location</label>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="Enter location"
+                      value={formData.location}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    />
+                  </div>
+                </>
+              )}
+              {activeTab === 'users' && (
+                <>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Name</label>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="Enter user name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Email</label>
+                    <input
+                      type="email"
+                      className={styles.input}
+                      placeholder="Enter email address"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Role</label>
+                    <select
+                      className={styles.select}
+                      value={formData.role}
+                      onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                    >
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </div>
+                </>
+              )}
               <div className={styles.formActions}>
                 <button type="submit" className={styles.submitBtn}>Save</button>
                 <button type="button" className={styles.cancelBtn} onClick={closeModal}>Cancel</button>
