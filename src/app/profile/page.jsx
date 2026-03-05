@@ -33,26 +33,8 @@ export default function ProfilePage() {
     remote: false,
     onsite: true,
   });
-  const [showCVModal, setShowCVModal] = useState(false);
-  const [showJobModal, setShowJobModal] = useState(false);
-  const [cvs, setCVs] = useState([
-    { id: 1, name: 'Indeed Resume', type: 'view' },
-    { id: 2, name: 'MyResume-MS.pdf', type: 'download' }
-  ]);
-  const [newCVName, setNewCVName] = useState('');
-  const [activeJobs, setActiveJobs] = useState([
-    { id: 1, title: 'Senior Developer', status: 'active', posted: '2024-03-01', requirements: { cv: true, education: true, experience: true, interview: true } },
-    { id: 2, title: 'Marketing Manager', status: 'active', posted: '2024-02-28', requirements: { cv: true, education: false, experience: true, interview: false } },
-  ]);
-  const [jobData, setJobData] = useState({
-    title: '',
-    description: '',
-    salary: '',
-    location: '',
-  });
-  const [jobRequirements, setJobRequirements] = useState({
-    uploadCV: true,
-    education: true,
+
+  // Job Seeker Data
     experience: true,
     interviewAvailability: true,
     location: true,
