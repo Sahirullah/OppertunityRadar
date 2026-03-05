@@ -65,21 +65,26 @@ export default function Home() {
       <Header />
       <div className={styles.container}>
         <main className={styles.main}>
-          <div className={styles.filters}>
-            <div className={styles.searchBox}>
-              <span>🔍</span>
-              <input type="text" placeholder="Search by job title" />
+          <div className={styles.searchSection}>
+            <div className={styles.searchContainer}>
+              <div className={styles.searchBox}>
+                <i className="fa-brands fa-sistrix"></i>
+                <input 
+                  type="text" 
+                  placeholder="Job title, keywords, or company" 
+                  className={styles.searchInput}
+                />
+              </div>
+              <div className={styles.locationBox}>
+                <select className={styles.locationSelect}>
+                  <option>pakistan</option>
+                  <option>London, UK</option>
+                  <option>New York, USA</option>
+                  <option>Remote</option>
+                </select>
+              </div>
+              <button className={styles.searchBtn}>Find jobs</button>
             </div>
-            <div className={styles.locationBox}>
-              <span>📍</span>
-              <select>
-                <option>Choose Location</option>
-                <option>London, UK</option>
-                <option>New York, USA</option>
-                <option>Remote</option>
-              </select>
-            </div>
-            <button className={styles.searchBtn}>Search</button>
           </div>
 
           <div className={styles.filterTags}>

@@ -8,9 +8,23 @@ import AuthModal from './AuthModal';
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const isActive = (path) => pathname === path;
+
+  const handleFavorites = () => router.push('/saved');
+  const handleMessages = () => router.push('/messages');
+  const handleNotifications = () => router.push('/notifications');
+  const handleProfile = () => {
+    setShowProfileMenu(!showProfileMenu);
+  };
+
+  const handleMenuClick = (path) => {
+    router.push(path);
+    setShowProfileMenu(false);
+  };
 
   return (
     <>
@@ -36,27 +50,110 @@ export default function Header() {
           </nav>
 
           <div className={styles.actions}>
-            <button className={styles.iconBtn} title="Notifications">
-              <i className="fa-solid fa-bell"></i>
+            <button 
+              className={styles.iconBtn} 
+              title="Saved"
+              data-tooltip="Saved"
+              onClick={handleFavorites}
+            >
+              <i className="fa-regular fa-bookmark"></i>
             </button>
-            <button className={styles.iconBtn} title="Messages">
-              <i className="fa-solid fa-comments"></i>
+            <button 
+              className={styles.iconBtn} 
+              title="Messages"
+              data-tooltip="Messages"
+              onClick={handleMessages}
+            >
+              <i className="fa-regular fa-comment"></i>
             </button>
-            <button className={styles.iconBtn} title="Saved">
-              <i className="fa-solid fa-heart"></i>
+            <button 
+              className={styles.notificationBtn} 
+              title="Notifications"
+              data-tooltip="Notifications"
+              onClick={handleNotifications}
+            >
+              <i className="fa-regular fa-bell"></i>
             </button>
-            <button className={styles.profileBtn} title="Profile">
-              <i className="fa-solid fa-circle-user"></i>
-            </button>
+            <div className={styles.profileContainer}>
+              <button 
+                className={styles.profileBtn} 
+                title="Profile"
+                data-tooltip="Account"
+                onClick={handleProfile}
+              >
+                <i className="fa-regular fa-circle-user"></i>
+              </button>
+              {showProfileMenu && (
+                <div className={styles.profileMenu}>
+                  <div className={styles.menuHeader}>
+                    sahirullah313@gmail.com
+                  </div>
+                  <button 
+                    className={styles.menuItem}
+                    onClick={() => handleMenuClick('/profile')}
+                  >
+                    <i className="fa-solid fa-user"></i>
+                    Profile
+                  </button>
+                  <button 
+                    className={styles.menuItem}
+                    onClick={() => handleMenuClick('/reviews')}
+                  >
+                    <i className="fa-solid fa-star"></i>
+                    My reviews
+                  </button>
+                  <button 
+                    className={styles.menuItem}
+                    onClick={() => handleMenuClick('/settings')}
+                  >
+                    <i className="fa-solid fa-gear"></i>
+                    Settings
+                  </button>
+                  <button 
+                    className={styles.menuItem}
+                    onClick={() => handleMenuClick('/help')}
+                  >
+                    <i className="fa-solid fa-circle-question"></i>
+                    Help
+                  </button>
+                  <button 
+                    className={styles.menuItem}
+                    onClick={() => handleMenuClick('/privacy')}
+                  >
+                    <i className="fa-solid fa-lock"></i>
+                    Privacy Center
+                  </button>
+                  <div className={styles.menuFooter}>
+                    © 2026 OpportunityRadar
+                  </div>
+                  <button 
+                    className={styles.signOutBtn}
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                    }}
+                  >
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className={styles.divider}></div>
             <button 
               className={styles.postBtn}
               onClick={() => setShowAuthModal(true)}
             >
-              Employer/Post job
+              Employers / Post Job
             </button>
           </div>
         </div>
       </header>
+
+      {showProfileMenu && (
+        <div 
+          className={styles.menuBackdrop}
+          onClick={() => setShowProfileMenu(false)}
+        ></div>
+      )}
 
       {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
     </>

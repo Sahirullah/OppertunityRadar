@@ -24,3 +24,23 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Ensure Font Awesome icons display */
+i[class^="fa-"],
+i[class*=" fa-"] {
+  font-style: normal;
+  font-weight: 400;
+  display: inline-block;
+}
+
+
+/* Font Awesome Icon Styles */
+i[class^="fa-"],
+i[class*=" fa-"] {
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
