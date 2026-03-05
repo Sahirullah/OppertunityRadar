@@ -28,7 +28,7 @@ export default function ProfilePage() {
     }
   });
   const [activeJobs, setActiveJobs] = useState([
-    { id: 1, title: 'Senior Developer', status: 'active', posted: '2024-03-01', r: true, experience: true, interview: true } },
+    { id: 1, title: 'Senior Developer', status: 'active', posted: '2024-03-01', requirements: { cv: true, education: true, experience: true, interview: true } },
     { id: 2, title: 'Marketing Manager', status: 'active', posted: '2024-02-28', requirements: { cv: true, education: false, experience: true, interview: false } },
   ]);
 
