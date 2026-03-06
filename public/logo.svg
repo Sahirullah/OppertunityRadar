@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#003580" opacity="0.1"/>
+  
+  <!-- Main circle -->
+  <circle cx="100" cy="100" r="85" fill="none" stroke="#003580" stroke-width="3"/>
+  
+  <!-- Radar waves -->
+  <circle cx="100" cy="100" r="55" fill="none" stroke="#003580" stroke-width="2" opacity="0.6"/>
+  <circle cx="100" cy="100" r="35" fill="none" stroke="#003580" stroke-width="2" opacity="0.4"/>
+  
+  <!-- Center dot -->
+  <circle cx="100" cy="100" r="6" fill="#003580"/>
+  
+  <!-- Radar sweep lines -->
+  <line x1="100" y1="100" x2="100" y2="20" stroke="#d84a38" stroke-width="2" opacity="0.8"/>
+  <line x1="100" y1="100" x2="160" y2="60" stroke="#d84a38" stroke-width="2" opacity="0.6"/>
+  <line x1="100" y1="100" x2="160" y2="140" stroke="#d84a38" stroke-width="2" opacity="0.4"/>
+  
+  <!-- Opportunity text arc (simplified) -->
+  <text x="100" y="175" font-size="14" font-weight="bold" fill="#003580" text-anchor="middle">RADAR</text>
+</svg>

@@ -16,6 +16,8 @@ export default function Home() {
   const [showApplyModal, setShowApplyModal] = useState(false);
   const [applyingJob, setApplyingJob] = useState(null);
   const [appliedJobs, setAppliedJobs] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [locationFilter, setLocationFilter] = useState('');
 
   console.log('Home page - contextJobs:', contextJobs);
 
@@ -24,7 +26,7 @@ export default function Home() {
   };
 
   // Show only admin-posted jobs
-  const allJobs = contextJobs
+  let allJobs = contextJobs
     .filter(job => job.status === 'active')
     .map(job => ({
       id: job.id,
@@ -38,6 +40,21 @@ export default function Home() {
       applied: hasApplied(job.id),
       saved: isJobSaved(job.id),
     }));
+
+  // Filter jobs based on search query and location
+  if (searchQuery.trim()) {
+    allJobs = allJobs.filter(job =>
+      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
+
+  if (locationFilter && locationFilter !== 'all') {
+    allJobs = allJobs.filter(job =>
+      job.location.toLowerCase().includes(locationFilter.toLowerCase())
+    );
+  }
 
   const handleApply = (job) => {
     setApplyingJob(job);
@@ -75,14 +92,21 @@ export default function Home() {
                   type="text" 
                   placeholder="Job title, keywords, or company" 
                   className={styles.searchInput}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <div className={styles.locationBox}>
-                <select className={styles.locationSelect}>
-                  <option>pakistan</option>
-                  <option>London, UK</option>
-                  <option>New York, USA</option>
-                  <option>Remote</option>
+                <select 
+                  className={styles.locationSelect}
+                  value={locationFilter}
+                  onChange={(e) => setLocationFilter(e.target.value)}
+                >
+                  <option value="">All Locations</option>
+                  <option value="pakistan">Pakistan</option>
+                  <option value="london">London, UK</option>
+                  <option value="new york">New York, USA</option>
+                  <option value="remote">Remote</option>
                 </select>
               </div>
               <button className={styles.searchBtn}>Find jobs</button>
@@ -94,8 +118,6 @@ export default function Home() {
             <button className={styles.filterTag}>Salaries ▼</button>
             <button className={styles.filterTag}>Posted Time ▼</button>
             <div className={styles.spacer}></div>
-            <span className={styles.matchLabel}>Your matching CV:</span>
-            <button className={styles.cvSelect}>Matthew's CV ▼</button>
           </div>
 
           <div className={styles.sortAndCount}>
@@ -145,12 +167,19 @@ export default function Home() {
 
             {allJobs.length > 0 && selectedJobData && (
               <div className={styles.jobDetail}>
-                <h1>{selectedJobData.title}</h1>
-                <div className={styles.jobDetailMeta}>
-                  <span className={styles.company}>{selectedJobData.company}</span>
-                  <span className={styles.location}>{selectedJobData.location}</span>
-                  <span className={styles.time}>{selectedJobData.postedTime}</span>
-                  <span className={styles.star}>⭐</span>
+                <div className={styles.jobDetailHeader}>
+                  <h1>{selectedJobData.title}</h1>
+                  <div className={styles.jobDetailMeta}>
+                    <span className={styles.company}>
+                      <i className="fa-solid fa-briefcase"></i> {selectedJobData.company}
+                    </span>
+                    <span className={styles.location}>{selectedJobData.location}</span>
+                    <span className={styles.time}>{selectedJobData.postedTime}</span>
+                    <span className={styles.star}>⭐</span>
+                  </div>
+                  {selectedJobData.responseRate && (
+                    <p className={styles.responseRate}>{selectedJobData.responseRate}</p>
+                  )}
                 </div>
 
                 <div className={styles.actionButtons}>
@@ -162,7 +191,9 @@ export default function Home() {
                   </button>
                   <button className={styles.customizeBtn}>Customize CV & Apply</button>
                   <span className={styles.matchScore}>{selectedJobData.match} great match</span>
-                  <button className={styles.saveIconBtn}>🤍</button>
+                  <button className={styles.saveIconBtn}>
+                    {isJobSaved(selectedJobData.id) ? '❤' : '🤍'}
+                  </button>
                 </div>
 
                 <div className={styles.matchingSection}>
@@ -195,9 +226,38 @@ export default function Home() {
                   <button className={styles.improveBtn}>Improve CV</button>
                 </div>
 
-                <p className={styles.jobDescription}>
-                  {selectedJobData.description}
-                </p>
+                <div className={styles.jobDetailsSection}>
+                  <h3>Job details</h3>
+                  <p className={styles.sectionSubtitle}>Here's how the job details align with your profile.</p>
+                  
+                  <div className={styles.detailsGrid}>
+                    <div className={styles.detailItem}>
+                      <span className={styles.detailLabel}>Job type</span>
+                      <span className={styles.detailValue}>{selectedJobData.jobType || 'Full-time'}</span>
+                    </div>
+                    <div className={styles.detailItem}>
+                      <span className={styles.detailLabel}>Location</span>
+                      <span className={styles.detailValue}>{selectedJobData.location}</span>
+                    </div>
+                    {selectedJobData.salary && (
+                      <div className={styles.detailItem}>
+                        <span className={styles.detailLabel}>Salary</span>
+                        <span className={styles.detailValue}>{selectedJobData.salary}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {(selectedJobData.fullDescription || selectedJobData.description) && (
+                  <div className={styles.fullJobDescription}>
+                    <h3>Full job description</h3>
+                    <div className={styles.jobDescription}>
+                      {(selectedJobData.fullDescription || selectedJobData.description).split('\n').map((line, idx) => (
+                        <p key={idx}>{line}</p>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

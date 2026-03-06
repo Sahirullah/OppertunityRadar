@@ -18,12 +18,20 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "OpportunityRadar - Job Portal",
   description: "Find your next opportunity",
+  icons: {
+    icon: '/logo.png',
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <link 
+          rel="icon" 
+          href="/logo.png" 
+          type="image/png"
+        />
         <link 
           rel="stylesheet" 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"

@@ -25,6 +25,19 @@
   transition: all 0.3s ease;
   white-space: nowrap;
   min-width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.logo span {
+  display: inline-block;
 }
 
 .logo:hover {
@@ -77,10 +90,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.8rem;
+  height: 2.8rem;
   position: relative;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   line-height: 1;
 }
 
@@ -93,7 +106,7 @@
 
 .iconBtn i {
   display: inline-block;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #333;
   line-height: 1;
 }
@@ -160,16 +173,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.8rem;
+  height: 2.8rem;
   position: relative;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   line-height: 1;
 }
 
 .notificationBtn i {
   display: inline-block;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #333;
   line-height: 1;
 }
@@ -258,16 +271,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 1.2rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  font-size: 1.5rem;
   line-height: 1;
   position: relative;
 }
 
 .profileBtn i {
   display: inline-block;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #333;
   line-height: 1;
 }

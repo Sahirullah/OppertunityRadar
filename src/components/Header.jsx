@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styles from './Header.module.css';
@@ -44,7 +45,13 @@ export default function Header() {
       <header className={styles.header}>
         <div className={styles.container}>
           <Link href="/" className={styles.logo}>
-            OpportunityRadar
+            <Image 
+              src="/logo.png" 
+              alt="OpportunityRadar Logo" 
+              width={50}
+              height={50}
+              priority
+            />
           </Link>
           
           <nav className={styles.nav}>
