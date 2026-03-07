@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import styles from './profile.module.css';
 import jsPDF from 'jspdf';
@@ -48,6 +48,25 @@ export default function ProfilePage() {
   const [updateCVId, setUpdateCVId] = useState(null);
   const [updateCVName, setUpdateCVName] = useState('');
   const [updateCVFile, setUpdateCVFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load CVs from MongoDB on component mount
+  useEffect(() => {
+    const loadCVs = async () => {
+      try {
+        const response = await fetch('/api/cv');
+        const result = await response.json();
+        if (result.success) {
+          setCVs(result.data);
+        }
+      } catch (error) {
+        console.error('Error loading CVs:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadCVs();
+  }, []);
   const [showCVMaker, setShowCVMaker] = useState(false);
   const [cvMakerData, setCVMakerData] = useState({
     fullName: 'Sahir Ullah',
@@ -113,7 +132,7 @@ export default function ProfilePage() {
 
   const profile = userType === 'jobseeker' ? jobSeekerProfile : employerProfile;
 
-  const handleUploadCV = () => {
+  const handleUploadCV = async () => {
     setUploadError('');
     
     if (!newCVName.trim()) {
@@ -139,12 +158,32 @@ export default function ProfilePage() {
       return;
     }
 
-    // Add CV to list
-    setCVs([...cvs, { id: cvs.length + 1, name: newCVName, type: 'download', file: cvFile }]);
-    setNewCVName('');
-    setCVFile(null);
-    setShowCVModal(false);
-    alert('Resume uploaded successfully!');
+    try {
+      const response = await fetch('/api/cv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: newCVName,
+          type: 'download',
+          fileName: cvFile.name,
+          fileSize: cvFile.size,
+          fileType: cvFile.type,
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setCVs([...cvs, result.data]);
+        setNewCVName('');
+        setCVFile(null);
+        setShowCVModal(false);
+        alert('Resume uploaded successfully!');
+      } else {
+        setUploadError('Failed to upload resume: ' + result.error);
+      }
+    } catch (error) {
+      setUploadError('Error uploading resume: ' + error.message);
+    }
   };
 
   const handleFileChange = (e) => {
@@ -185,8 +224,23 @@ export default function ProfilePage() {
     }
   };
 
-  const handleDeleteCV = (id) => {
-    setCVs(cvs.filter(cv => cv.id !== id));
+  const handleDeleteCV = async (id) => {
+    try {
+      const response = await fetch(`/api/cv?id=${id}`, {
+        method: 'DELETE',
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setCVs(cvs.filter(cv => cv._id !== id));
+        alert('Resume deleted successfully!');
+      } else {
+        alert('Failed to delete resume');
+      }
+    } catch (error) {
+      console.error('Error deleting CV:', error);
+      alert('Error deleting resume');
+    }
   };
 
   const handleDownloadCV = (cv) => {
@@ -324,28 +378,56 @@ export default function ProfilePage() {
   };
 
   const handleUpdateCV = (cv) => {
-    setUpdateCVId(cv.id);
+    setUpdateCVId(cv._id);
     setUpdateCVName(cv.name);
     setUpdateCVFile(null);
     setShowUpdateModal(true);
   };
 
-  const handleSaveUpdateCV = () => {
+  const handleSaveUpdateCV = async () => {
     if (!updateCVName.trim()) {
       alert('Please enter a resume name');
       return;
     }
 
-    setCVs(cvs.map(cv => 
-      cv.id === updateCVId 
-        ? { ...cv, name: updateCVName, file: updateCVFile || cv.file }
-        : cv
-    ));
-    setShowUpdateModal(false);
-    setUpdateCVId(null);
-    setUpdateCVName('');
-    setUpdateCVFile(null);
-    alert('Resume updated successfully!');
+    try {
+      const updateData = {
+        _id: updateCVId,
+        name: updateCVName,
+      };
+
+      // If a new file is selected, include metadata
+      if (updateCVFile) {
+        updateData.fileName = updateCVFile.name;
+        updateData.fileSize = updateCVFile.size;
+        updateData.fileType = updateCVFile.type;
+      }
+
+      const response = await fetch('/api/cv', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updateData),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setCVs(cvs.map(cv => 
+          cv._id === updateCVId 
+            ? { ...cv, name: updateCVName, ...updateData }
+            : cv
+        ));
+        setShowUpdateModal(false);
+        setUpdateCVId(null);
+        setUpdateCVName('');
+        setUpdateCVFile(null);
+        alert('Resume updated successfully!');
+      } else {
+        alert('Failed to update resume');
+      }
+    } catch (error) {
+      console.error('Error updating CV:', error);
+      alert('Error updating resume');
+    }
   };
 
   const handleUpdateFileChange = (e) => {

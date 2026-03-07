@@ -4,6 +4,7 @@ import { AuthProvider } from "../context/AuthContext";
 import { JobsProvider } from "../context/JobsContext";
 import { SavedJobsProvider } from "../context/SavedJobsContext";
 import { ApplicationsProvider } from "../context/ApplicationsContext";
+import { CVProvider } from "../context/CVContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,13 +45,15 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          <JobsProvider>
-            <SavedJobsProvider>
-              <ApplicationsProvider>
-                {children}
-              </ApplicationsProvider>
-            </SavedJobsProvider>
-          </JobsProvider>
+          <CVProvider>
+            <JobsProvider>
+              <SavedJobsProvider>
+                <ApplicationsProvider>
+                  {children}
+                </ApplicationsProvider>
+              </SavedJobsProvider>
+            </JobsProvider>
+          </CVProvider>
         </AuthProvider>
       </body>
     </html>

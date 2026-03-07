@@ -182,6 +182,7 @@ export default function Header() {
         <div 
           className={styles.menuBackdrop}
           onClick={() => setShowProfileMenu(false)}
+          style={{ pointerEvents: 'none' }}
         ></div>
       )}
 
