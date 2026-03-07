@@ -1,12 +1,18 @@
+:global(*) {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .container {
   min-height: 100vh;
-  background: #fff;
+  background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 /* Hero Section */
 .heroSection {
-  background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+  background: linear-gradient(135deg, #fff9f7 0%, #f5f5f5 100%);
   padding: 4rem 2rem;
   text-align: center;
 }
@@ -18,44 +24,66 @@
 
 .heroTitle {
   font-size: 2.5rem;
-  font-weight: 700;
   color: #000;
-  margin: 0 0 0.5rem 0;
-  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  font-weight: 800;
 }
 
 .heroSubtitle {
   font-size: 1.1rem;
   color: #666;
-  margin: 0 0 2rem 0;
-  font-weight: 400;
+  margin-bottom: 2rem;
 }
 
-.searchSection {
+/* Search Container */
+.searchContainer {
   display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  justify-content: center;
-  flex-wrap: wrap;
+  gap: 0;
+  align-items: center;
+  margin-bottom: 0;
+  flex-wrap: nowrap;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  background: white;
+  border-radius: 50px;
+  padding: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 2px solid #e8e8e8;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.searchContainer:focus-within {
+  border-color: #0052cc;
+  box-shadow: 0 12px 32px rgba(0, 82, 204, 0.25);
 }
 
 .searchBox {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 0.75rem 1rem;
+  background: transparent;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0;
+  border: none;
   flex: 1;
-  min-width: 300px;
-  max-width: 500px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  box-shadow: none;
 }
 
 .searchBox i {
-  color: #999;
-  font-size: 1rem;
+  color: #666;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .searchInput {
@@ -71,199 +99,254 @@
 
 .searchInput::placeholder {
   color: #999;
+  font-weight: 400;
+}
+
+.locationBox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0;
+  border: none;
+  border-left: 2px solid #e8e8e8;
+  flex: 0 0 auto;
+  transition: all 0.3s ease;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.locationBox:focus-within {
+  border-color: #e8e8e8;
+  box-shadow: none;
+  background: transparent;
+}
+
+.locationSelect {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #333;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.locationSelect option {
+  color: #333;
+  background: white;
 }
 
 .findBtn {
-  padding: 0.75rem 2rem;
-  background: #0052cc;
+  background: linear-gradient(135deg, #d84a38 0%, #c23a2a 100%);
   color: white;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 0.75rem 2rem;
+  margin: 0.5rem;
+  border-radius: 50px;
   font-weight: 600;
   font-size: 0.95rem;
+  cursor: pointer;
   transition: all 0.3s ease;
-  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .findBtn:hover {
-  background: #003d99;
-}
-
-.searchHint {
-  font-size: 0.9rem;
-  color: #666;
-  margin: 0;
-}
-
-.searchHint a {
-  color: #0052cc;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.searchHint a:hover {
-  text-decoration: underline;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(216, 74, 56, 0.3);
 }
 
 /* Companies Section */
 .companiesSection {
-  max-width: 1200px;
+  padding: 4rem 2rem;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 3rem 2rem;
 }
 
 .sectionTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 2rem;
   color: #000;
-  margin: 0 0 2rem 0;
+  margin-bottom: 2.5rem;
+  font-weight: 700;
 }
 
 .companiesGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+  gap: 2rem;
 }
 
+/* Company Card */
 .companyCard {
   background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  cursor: pointer;
+  border: 1px solid #e8e8e8;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .companyCard:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  border-color: #0052cc;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  border-color: #d84a38;
 }
 
-.cardHeader {
+.cardTop {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.logoContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .companyLogo {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #0052cc 0%, #003d99 100%);
-  border-radius: 4px;
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 1.3rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  flex-shrink: 0;
-}
-
-.companyBasicInfo {
-  flex: 1;
+  color: white;
+  background: linear-gradient(135deg, #d84a38 0%, #c23a2a 100%);
 }
 
 .companyName {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 1.1rem;
   color: #000;
-  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.cardMiddle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid #e8e8e8;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .ratingSection {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.85rem;
+  justify-content: center;
 }
 
 .stars {
-  color: #ffc107;
-  font-size: 0.9rem;
+  display: flex;
+  gap: 0.2rem;
+  font-size: 1rem;
 }
 
-.ratingCount {
+.starFilled {
+  color: #ffc107;
+}
+
+.starEmpty {
+  color: #ddd;
+}
+
+.ratingValue {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #000;
+}
+
+.reviewCount {
+  font-size: 0.85rem;
   color: #666;
 }
 
 .cardLinks {
   display: flex;
-  gap: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e8e8e8;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .cardLink {
-  color: #666;
+  color: #0052cc;
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.3s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
 }
 
 .cardLink:hover {
-  color: #0052cc;
+  color: #003a99;
+  background: rgba(0, 82, 204, 0.1);
 }
 
+/* No Results */
 .noResults {
   text-align: center;
-  padding: 3rem 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
+  padding: 3rem 2rem;
   color: #666;
+  font-size: 1.1rem;
 }
 
 /* Rate Section */
 .rateSection {
-  background: #e8f5e9;
-  padding: 2rem;
-  margin: 2rem;
-  border-radius: 8px;
+  background: white;
+  padding: 3rem 2rem;
+  margin: 2rem 0;
+  border-top: 1px solid #e8e8e8;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .rateContent {
-  max-width: 1200px;
+  max-width: 600px;
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  text-align: center;
 }
 
-.rateIcon {
-  font-size: 2.5rem;
-  flex-shrink: 0;
-}
-
-.rateText {
-  flex: 1;
-}
-
-.rateText h3 {
-  font-size: 1rem;
-  font-weight: 600;
+.rateTitle {
+  font-size: 1.5rem;
   color: #000;
-  margin: 0 0 0.75rem 0;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
 .rateStars {
   display: flex;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .rateStar {
-  font-size: 1.5rem;
-  color: #ccc;
+  font-size: 2.5rem;
+  color: #ddd;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  line-height: 1;
 }
 
-.rateStar:hover {
+.rateStar:hover,
+.rateStarHover {
   color: #ffc107;
   transform: scale(1.2);
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .heroTitle {
     font-size: 1.8rem;
@@ -273,29 +356,118 @@
     font-size: 1rem;
   }
 
-  .searchSection {
+  .searchContainer {
     flex-direction: column;
+    border-radius: 12px;
+    max-width: 100%;
   }
 
-  .searchBox {
-    min-width: auto;
-    max-width: 100%;
+  .locationBox {
+    border-left: none;
+    border-top: 2px solid #e8e8e8;
+    width: 100%;
   }
 
   .findBtn {
     width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .companiesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .companyCard {
+    padding: 1rem;
+  }
+
+  .companyLogo {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .companyName {
+    font-size: 1rem;
+  }
+
+  .rateTitle {
+    font-size: 1.2rem;
+  }
+
+  .rateStar {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection {
+    padding: 2rem 1rem;
+  }
+
+  .heroTitle {
+    font-size: 1.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 0.9rem;
+  }
+
+  .searchContainer {
+    flex-direction: column;
+    border-radius: 12px;
+  }
+
+  .searchBox,
+  .locationBox {
+    padding: 0.5rem 1rem;
+  }
+
+  .companiesSection {
+    padding: 2rem 1rem;
   }
 
   .companiesGrid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
-  .rateContent {
-    flex-direction: column;
-    text-align: center;
+  .sectionTitle {
+    font-size: 1.3rem;
+  }
+
+  .companyCard {
+    padding: 1rem;
   }
 
   .cardLinks {
-    justify-content: space-around;
+    gap: 0.5rem;
+  }
+
+  .cardLink {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .rateSection {
+    padding: 2rem 1rem;
+  }
+
+  .rateTitle {
+    font-size: 1rem;
+  }
+
+  .rateStars {
+    gap: 0.75rem;
+  }
+
+  .rateStar {
+    font-size: 1.8rem;
   }
 }

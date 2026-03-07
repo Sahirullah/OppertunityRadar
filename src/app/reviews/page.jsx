@@ -3,24 +3,11 @@
 import { useState } from 'react';
 import Header from '../../components/Header';
 import styles from './reviews.module.css';
-import { useJobs } from '../../context/JobsContext';
+import { useCompanies } from '../../context/CompaniesContext';
 
 export default function ReviewsPage() {
-  const { jobs } = useJobs();
+  const { companies } = useCompanies();
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Get unique companies from jobs
-  const companies = Array.from(
-    new Map(
-      jobs.map(job => [job.company, {
-        name: job.company,
-        location: job.location,
-        jobsCount: jobs.filter(j => j.company === job.company).length,
-        rating: 4.5,
-        reviews: Math.floor(Math.random() * 500) + 50,
-      }])
-    ).values()
-  );
 
   // Filter companies based on search
   let filteredCompanies = companies;
@@ -63,21 +50,23 @@ export default function ReviewsPage() {
 
         {/* Popular Companies Section */}
         <section className={styles.companiesSection}>
-          <h2 className={styles.sectionTitle}>Popular companies</h2>
+          <h2 className={styles.sectionTitle}>Registered companies</h2>
 
           {filteredCompanies.length > 0 ? (
             <div className={styles.companiesGrid}>
-              {filteredCompanies.map((company, index) => (
-                <div key={index} className={styles.companyCard}>
+              {filteredCompanies.map((company) => (
+                <div key={company.id} className={styles.companyCard}>
                   <div className={styles.cardHeader}>
                     <div className={styles.companyLogo}>
-                      {company.name.charAt(0).toUpperCase()}
+                      {company.logo || company.name.charAt(0).toUpperCase()}
                     </div>
                     <div className={styles.companyBasicInfo}>
                       <h3 className={styles.companyName}>{company.name}</h3>
                       <div className={styles.ratingSection}>
-                        <span className={styles.stars}>★★★★☆</span>
-                        <span className={styles.ratingCount}>{company.reviews} reviews</span>
+                        <span className={styles.stars}>
+                          {company.rating ? '★'.repeat(Math.round(company.rating)) + '☆'.repeat(5 - Math.round(company.rating)) : '★★★★☆'}
+                        </span>
+                        <span className={styles.ratingCount}>{company.reviewCount || 0} reviews</span>
                       </div>
                     </div>
                   </div>
@@ -92,7 +81,7 @@ export default function ReviewsPage() {
             </div>
           ) : (
             <div className={styles.noResults}>
-              <p>No companies found matching your search.</p>
+              <p>No registered companies found. Check back soon!</p>
             </div>
           )}
         </section>
