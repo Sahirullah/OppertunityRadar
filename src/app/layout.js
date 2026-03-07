@@ -5,6 +5,7 @@ import { JobsProvider } from "../context/JobsContext";
 import { SavedJobsProvider } from "../context/SavedJobsContext";
 import { ApplicationsProvider } from "../context/ApplicationsContext";
 import { CVProvider } from "../context/CVContext";
+import { CompaniesProvider } from "../context/CompaniesContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,7 +50,9 @@ export default function RootLayout({ children }) {
             <JobsProvider>
               <SavedJobsProvider>
                 <ApplicationsProvider>
-                  {children}
+                  <CompaniesProvider>
+                    {children}
+                  </CompaniesProvider>
                 </ApplicationsProvider>
               </SavedJobsProvider>
             </JobsProvider>
