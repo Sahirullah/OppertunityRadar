@@ -225,7 +225,7 @@
   margin: 0 0 0.5rem 0;
 }
 
-.recommended {
+.recommendedBadge {
   display: inline-block;
   background: #e8f5e9;
   color: #1b5e20;
@@ -233,6 +233,12 @@
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.recommended {
+  border-color: #4caf50;
+  background: #f1f8f6;
 }
 
 .checkmark {

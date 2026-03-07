@@ -13,11 +13,11 @@ export function CVProvider({ children }) {
       try {
         const response = await fetch('/api/cv');
         const result = await response.json();
-        if (result.success) {
+        if (result.success && result.data) {
           // Transform API CVs to match the expected format
           const transformedCVs = result.data.map(cv => ({
             id: cv._id,
-            fileName: cv.name,
+            fileName: cv.name || cv.fileName,
             uploadedDate: cv.createdAt || new Date().toISOString(),
             isDefault: false,
             content: cv.data || {},

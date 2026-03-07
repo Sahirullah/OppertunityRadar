@@ -116,28 +116,50 @@ export default function ApplyFormModal({ job, onClose, onSubmit }) {
 
                 <div className={styles.resumeOptions}>
                   {cvs.length > 0 ? (
-                    cvs.map((cv) => (
-                      <div 
-                        key={cv.id}
-                        className={`${styles.resumeOption} ${selectedCVId === cv.id ? styles.selected : ''}`}
-                        onClick={() => setSelectedCVId(cv.id)}
-                      >
-                        <div className={styles.resumeIconWrapper}>
-                          <i className="fa-solid fa-file-pdf"></i>
+                    <>
+                      {/* Recommended/Default CV */}
+                      {cvs[0] && (
+                        <div 
+                          className={`${styles.resumeOption} ${styles.recommended} ${selectedCVId === cvs[0]?.id ? styles.selected : ''}`}
+                          onClick={() => setSelectedCVId(cvs[0]?.id)}
+                        >
+                          <div className={styles.resumeIconWrapper}>
+                            <i className="fa-solid fa-file-pdf"></i>
+                          </div>
+                          <div className={styles.resumeInfo}>
+                            <p className={styles.resumeLabel}>{cvs[0]?.fileName}</p>
+                            <p className={styles.resumeDate}>
+                              Uploaded {new Date(cvs[0]?.uploadedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                            </p>
+                            <span className={styles.recommendedBadge}>Recommended</span>
+                          </div>
+                          {selectedCVId === cvs[0]?.id && <div className={styles.checkmark}>✓</div>}
                         </div>
-                        <div className={styles.resumeInfo}>
-                          <p className={styles.resumeLabel}>{cv.fileName}</p>
-                          <p className={styles.resumeDate}>
-                            Uploaded {new Date(cv.uploadedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                          </p>
-                          {cv.isDefault && <span className={styles.recommended}>Recommended</span>}
+                      )}
+
+                      {/* Other CVs */}
+                      {cvs.slice(1).map((cv) => (
+                        <div 
+                          key={cv.id}
+                          className={`${styles.resumeOption} ${selectedCVId === cv.id ? styles.selected : ''}`}
+                          onClick={() => setSelectedCVId(cv.id)}
+                        >
+                          <div className={styles.resumeIconWrapper}>
+                            <i className="fa-solid fa-file-pdf"></i>
+                          </div>
+                          <div className={styles.resumeInfo}>
+                            <p className={styles.resumeLabel}>{cv.fileName}</p>
+                            <p className={styles.resumeDate}>
+                              Uploaded {new Date(cv.uploadedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                            </p>
+                          </div>
+                          {selectedCVId === cv.id && <div className={styles.checkmark}>✓</div>}
                         </div>
-                        {selectedCVId === cv.id && <div className={styles.checkmark}>✓</div>}
-                      </div>
-                    ))
+                      ))}
+                    </>
                   ) : (
                     <div className={styles.noCVMessage}>
-                      <p>No CVs uploaded yet. <a href="/cv-maker" style={{ color: '#0052cc', textDecoration: 'none', fontWeight: '600', cursor: 'pointer' }}>Create or upload a CV first</a></p>
+                      <p>No CVs uploaded yet. <a href="/profile" style={{ color: '#0052cc', textDecoration: 'none', fontWeight: '600', cursor: 'pointer' }}>Create or upload a CV first</a></p>
                     </div>
                   )}
                 </div>

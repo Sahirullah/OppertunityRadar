@@ -731,7 +731,7 @@ export default function ProfilePage() {
                     <h2>Resume & CV</h2>
                     <div className={styles.resumeList}>
                       {cvs.map((cv) => (
-                        <div key={cv.id} className={styles.resumeItem}>
+                        <div key={cv._id} className={styles.resumeItem}>
                           <span>📄 {cv.name}</span>
                           <div className={styles.cvActions}>
                             <button 
@@ -748,7 +748,7 @@ export default function ProfilePage() {
                             </button>
                             <button 
                               className={styles.deleteBtn} 
-                              onClick={() => handleDeleteCV(cv.id)}
+                              onClick={() => handleDeleteCV(cv._id)}
                             >
                               Delete
                             </button>
