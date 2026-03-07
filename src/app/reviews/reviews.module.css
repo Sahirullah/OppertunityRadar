@@ -1,78 +1,61 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
-  padding: 0;
+  background: #fff;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-.main {
-  padding: 2rem;
-  max-width: 1400px;
+/* Hero Section */
+.heroSection {
+  background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.heroContent {
+  max-width: 900px;
   margin: 0 auto;
 }
 
-/* Search Section */
+.heroTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0 0 2rem 0;
+  font-weight: 400;
+}
+
 .searchSection {
-  background: transparent;
-  border-radius: 16px;
-  padding: 2rem 0;
-  margin-bottom: 2.5rem;
   display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
   justify-content: center;
-}
-
-.searchContainer {
-  display: flex;
-  gap: 0;
-  align-items: center;
-  margin-bottom: 0;
-  flex-wrap: nowrap;
-  width: 100%;
-  max-width: 950px;
-  background: white;
-  border-radius: 50px;
-  padding: 0;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  border: 2px solid #e8e8e8;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.searchContainer:focus-within {
-  border-color: #0052cc;
-  box-shadow: 0 12px 32px rgba(0, 82, 204, 0.25);
+  flex-wrap: wrap;
 }
 
 .searchBox {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: transparent;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0;
-  border: none;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
   flex: 1;
-  transition: all 0.3s ease;
-  box-shadow: none;
-}
-
-.searchBox:focus-within {
-  border-color: transparent;
-  box-shadow: none;
-  background: transparent;
+  min-width: 300px;
+  max-width: 500px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .searchBox i {
-  color: #666;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
+  color: #999;
+  font-size: 1rem;
 }
 
 .searchInput {
@@ -88,249 +71,112 @@
 
 .searchInput::placeholder {
   color: #999;
-  font-weight: 400;
 }
 
-.locationBox {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: transparent;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0;
-  border: none;
-  border-left: 2px solid #e8e8e8;
-  flex: 0 0 auto;
-  transition: all 0.3s ease;
-  box-shadow: none;
-  cursor: pointer;
-}
-
-.locationBox:focus-within {
-  border-color: #e8e8e8;
-  box-shadow: none;
-  background: transparent;
-}
-
-.locationBox:hover {
-  border-color: #e8e8e8;
-}
-
-.locationBox i {
-  color: #d84a38;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
-.locationSelect {
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 0.95rem;
-  color: #333;
-  flex: 0 0 auto;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: 500;
-  padding: 0;
-}
-
-.locationSelect option {
-  color: #333;
-  background: white;
-  padding: 0.5rem;
-}
-
-.searchBtn {
-  background: linear-gradient(135deg, #0052cc 0%, #003d99 100%);
-  border: none;
+.findBtn {
   padding: 0.75rem 2rem;
-  border-radius: 0 50px 50px 0;
-  cursor: pointer;
-  font-weight: 600;
-  color: white;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  box-shadow: none;
-  white-space: nowrap;
-  text-transform: capitalize;
-  letter-spacing: 0.3px;
-  font-family: inherit;
-  flex-shrink: 0;
-}
-
-.searchBtn:hover {
-  background: linear-gradient(135deg, #003d99 0%, #002966 100%);
-}
-
-.searchBtn:active {
-  transform: none;
-}
-
-.searchSuggestions {
-  display: none;
-}
-
-.suggestionLabel {
-  display: none;
-}
-
-.suggestionTags {
-  display: none;
-}
-
-.suggestionTag {
-  display: none;
-}
-
-.content {
-  max-width: 1200px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 12px;
-  padding: 3rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  text-align: center;
-}
-
-.content h1 {
-  font-size: 2rem;
-  color: #000;
-  margin-bottom: 1rem;
-}
-
-.content p {
-  font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
   background: #0052cc;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
   font-weight: 600;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
-.btn:hover {
+.findBtn:hover {
   background: #003d99;
-  transform: translateY(-2px);
+}
+
+.searchHint {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.searchHint a {
+  color: #0052cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.searchHint a:hover {
+  text-decoration: underline;
 }
 
 /* Companies Section */
 .companiesSection {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 3rem 2rem;
 }
 
-.companiesHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding: 0 1rem;
-}
-
-.companiesHeader h2 {
-  font-size: 1.8rem;
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #000;
-  margin: 0;
+  margin: 0 0 2rem 0;
 }
 
-.companiesCount {
-  font-size: 0.95rem;
-  color: #666;
-  margin: 0;
-}
-
-.companiesList {
+.companiesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
 .companyCard {
   background: white;
-  border-radius: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  cursor: pointer;
 }
 
 .companyCard:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   border-color: #0052cc;
-  transform: translateY(-4px);
 }
 
-.companyHeader {
+.cardHeader {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
-  align-items: flex-start;
 }
 
 .companyLogo {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(135deg, #0052cc 0%, #003d99 100%);
-  border-radius: 8px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 700;
   flex-shrink: 0;
 }
 
-.companyInfo {
+.companyBasicInfo {
   flex: 1;
 }
 
 .companyName {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #000;
   margin: 0 0 0.5rem 0;
 }
 
-.companyLocation {
+.ratingSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.85rem;
-  color: #666;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.companyLocation i {
-  color: #d84a38;
-  font-size: 0.9rem;
-}
-
-.companyStats {
-  text-align: right;
-}
-
-.rating {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  justify-content: flex-end;
-  margin-bottom: 0.5rem;
 }
 
 .stars {
@@ -338,96 +184,118 @@
   font-size: 0.9rem;
 }
 
-.ratingValue {
-  font-weight: 700;
-  color: #000;
-  font-size: 0.95rem;
+.ratingCount {
+  color: #666;
 }
 
-.reviewCount {
-  font-size: 0.8rem;
-  color: #999;
-  margin: 0;
-}
-
-.companyFooter {
+.cardLinks {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 1.5rem;
   padding-top: 1rem;
   border-top: 1px solid #e8e8e8;
 }
 
-.jobsCount {
+.cardLink {
+  color: #666;
+  text-decoration: none;
   font-size: 0.85rem;
-  color: #0052cc;
-  font-weight: 600;
-}
-
-.reviewBtn {
-  padding: 0.5rem 1rem;
-  background: #0052cc;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 500;
   transition: all 0.3s ease;
 }
 
-.reviewBtn:hover {
-  background: #003d99;
-  transform: translateY(-2px);
+.cardLink:hover {
+  color: #0052cc;
 }
 
-.noCompanies {
+.noResults {
   text-align: center;
   padding: 3rem 1rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: #f9f9f9;
+  border-radius: 8px;
+  color: #666;
 }
 
-.noCompanies p {
+/* Rate Section */
+.rateSection {
+  background: #e8f5e9;
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 8px;
+}
+
+.rateContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.rateIcon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.rateText {
+  flex: 1;
+}
+
+.rateText h3 {
   font-size: 1rem;
-  color: #666;
-  margin: 0;
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 0.75rem 0;
+}
+
+.rateStars {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.rateStar {
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rateStar:hover {
+  color: #ffc107;
+  transform: scale(1.2);
 }
 
 @media (max-width: 768px) {
-  .searchContainer {
+  .heroTitle {
+    font-size: 1.8rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .searchSection {
     flex-direction: column;
-    border-radius: 12px;
   }
 
   .searchBox {
-    border-bottom: 2px solid #e8e8e8;
-    border-radius: 12px 12px 0 0;
+    min-width: auto;
+    max-width: 100%;
   }
 
-  .locationBox {
-    border-left: none;
-    border-top: 2px solid #e8e8e8;
-    border-radius: 0;
+  .findBtn {
     width: 100%;
   }
 
-  .searchBtn {
-    border-radius: 0 0 12px 12px;
-    width: 100%;
+  .companiesGrid {
+    grid-template-columns: 1fr;
   }
 
-  .searchSuggestions {
+  .rateContent {
     flex-direction: column;
-    align-items: flex-start;
+    text-align: center;
   }
 
-  .content {
-    padding: 2rem 1rem;
-  }
-
-  .content h1 {
-    font-size: 1.5rem;
+  .cardLinks {
+    justify-content: space-around;
   }
 }
